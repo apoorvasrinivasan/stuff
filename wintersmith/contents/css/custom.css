@@ -1,0 +1,162 @@
+
+
+
+.h1-container {
+    background-color: #db5b43;
+    font-size: 1.4em;
+    margin: 0 auto;
+    padding: 3em 0;
+}
+.featured-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100px;
+  padding: 100px;
+}
+h1 {
+  color: #fff;
+  text-align: center;
+}
+.h1-container > h2 {
+  color: #fff;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.h1-container > h2::before, .h1-container > h2::after {
+  content: "=========";
+  margin: 0 9px;
+}
+.article-list {
+    float: left;
+    font-size: 15px;
+    width: 60%;
+}
+.other-links{
+  float: left;
+  width: 40%;
+}
+.draft {
+    background-color: green;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+@media screen and (max-width: 700px){
+  .article-list {
+    width: 100%;
+    float: none
+  }
+  .other-links{
+    width: 100%;
+    float: none;
+  }
+}
+article h2 {
+    font-size: 1.4em;
+    margin: 0;
+}
+
+article header .date {
+  font-size: 0.8em;
+  color: #DB5B43;
+  font-size: .8em;
+
+}
+
+
+.more {
+    background: rgba(57, 56, 56, 1) none repeat scroll 0 0;
+    color: #fff;
+    display: block;
+    float: right;
+    font-size: 0.9em;
+    padding: 2px 0;
+    position: relative;
+    text-align: center;
+    top: -20px;
+    width: 165px;
+}
+.more:hover{
+  background-color:  #DB5B43;
+  color: #fff;
+}
+article section.content .article-content {
+    display: inline-block;
+    margin-left: 5%;
+    vertical-align: top;
+    width: 48%;
+}
+article section.content .article-content:first-child {
+    margin-left: 0;
+    width: 98%;
+}
+article.card img {
+    display: inline-block;
+    vertical-align: top;
+    width: 46%;
+}
+
+
+
+
+#one {
+  background-color: white;
+  float:left; 
+  margin-right:20px;
+  min-height:170px;
+  width:43%;
+  border:2px dashed #ccc;
+  
+}
+#two { 
+  background-color: white;
+  overflow:hidden;
+  margin:10px;
+  border:2px dashed #ccc;
+  min-height:170px;
+  
+}
+
+
+
+
+
+
+
+
+
+
+.headline-card {
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    background: #fff;
+    float: left;
+    margin: 0 0px 20px;
+    border-radius: 0px;
+    border: 0px;
+}
+
+
+.headline-card .image-small {
+    width: 100%;
+    
+    transition-property: -webkit-transform, opacity;
+    transition-duration: 0.6s, 0.3s;
+}
+
+
+
+
+
+@media screen and (max-width: 400px) {
+   #one { 
+    float: none;
+    margin-right:0;
+    width:auto;
+    border:2px dashed #ccc;  
+  }
+
+}

@@ -1,0 +1,32 @@
+extends layout
+block header
+block top_scripts
+  link(rel='stylesheet', href=contents.css['custom.css'].url)
+block beforeContent
+  div(style="background-image: url(#{locals.featured_image})",class='featured-image')
+    div.h1-container
+      h1 #{locals.name}
+      h2 #{locals.description}
+block content
+  div.article-list
+    include author
+    each article in articles
+      article.card
+        header
+          h2
+            a(href=article.url)= article.title
+          p.date= moment.utc(article.date).format('DD. MMMM YYYY')
+        section.content
+          if article.metadata.banner
+            img.artcile-image(src=article.url + article.metadata.banner)
+          if article.metadata.intro
+            != typogr(article.metadata.intro).typogrify()
+          else if article.intro.length > 0
+            != typogr(article.intro).typogrify()
+        if article.hasMore
+            a.more(href=article.url) Continue Reading
+    block prepend 
+      div.nav
+
+  div.other-links
+  div.clear
