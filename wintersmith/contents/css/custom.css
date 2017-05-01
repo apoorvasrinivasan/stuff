@@ -27,6 +27,14 @@ h1 {
   content: "=========";
   margin: 0 9px;
 }
+@media screen and (max-width: 600px){
+.featured-image{
+  padding: 100px 0;
+}
+.h1-container > h2::before, .h1-container > h2::after {
+  content: "";
+}
+}
 .article-list {
     float: left;
     font-size: 15px;

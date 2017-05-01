@@ -68,20 +68,22 @@ h1 {
 }
 
 h2 {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: 400;
+  color: #db5b43;
   line-height: 1.43;
   margin-bottom: 1.35em;
 }
 
 h3 {
-  font-style: italic;
-  text-align: center;
-  font-weight: 400;
-  font-size: 1.4em;
-  margin-top: 1.8em;
-  margin-bottom: 0.8em;
+    font-style: italic;
+    font-weight: 401;
+    font-size: 1.2em;
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+    font-variant: small-caps;
 }
+
 
 ol, ul {
   margin: 0 1.4em 1.4em 4em;
@@ -306,14 +308,17 @@ pre code {
   line-height: 1.1;
 }
 
-p code {
-  padding: 0.1em 0.3em 0.2em;
-  border-radius: 0.3em;
-  position: relative;
-  background: #fffff3;
-
-  white-space: nowrap;
+code {
+    padding: 0.1em 0.3em 0.2em;
+    border-radius: 0.3em;
+    position: relative;
+    white-space: nowrap;
+    font-family: monospace,monospace;
+    font-stretch: extra-expanded;
+    font-size: .9em;
+    color: #c7254e;
 }
+
 
 /* syntax hl stuff */
 
@@ -403,7 +408,8 @@ font-size: 16px;
 @media screen and (max-width: 400px) {
 
 .container{
-    width: 100%;
+    width: 95%;
+    padding: 0;
     margin: 0 auto;
 
 }
