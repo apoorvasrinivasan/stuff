@@ -1,13 +1,13 @@
 {
   "locals": {
-    "url": "http://apoorvasrinivasan.com",
+    "url": "http://blog.apoorvasrinivasan.com",
     "name": "Apoorva Srinivasan",
     "owner": "Apoorva",
     "description": "abstruse",
     "logo":"http://i.kinja-img.com/gawker-media/image/upload/s--7dyXeQ3b--/17mcvv099jo1ipng.png",
     "featured_image":"https://static.wixstatic.com/media/20adf4_79e069a6137d422a8ba595ee8b68c85c.jpg/v1/crop/w_980,h_360,al_t,q_85/60adf4_79e069a6137d422a8ba595ee8b68c85c.jpg"
   },
-  "baseUrl":"/stuff",
+  "baseUrl":"/",
   "plugins": [
     "./plugins/paginator.coffee"
   ],
