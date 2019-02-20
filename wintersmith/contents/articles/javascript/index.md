@@ -20,3 +20,7 @@ This is your first HTML page
 Javascript is written inside `<script>` tag. Anything written inside the tag is executed. Script tag is inserted as
 `<script type="text/javascript"></script>`  
 A script tag can be inserted inside `<head>` or just before closing the `<body>` tag
+
+The difference between the two is,:-
+ - the script in the `<head>` runs *before* the DOM structure is constructed and the later is run after the DOM is contructed
+ - the script in `<head>` is render blocking i.e. stops the page from loading and should be very light and minimal. 
