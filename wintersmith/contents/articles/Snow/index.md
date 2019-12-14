@@ -2,6 +2,8 @@
 title: 8 things to remember before planning vacation in snow 
 date: 2019-02-19  23:12
 author: apoorva
+description: 8 thinkgs to remember in snow
+image : 8-things-to-remember-in-snow-romance.gif
 template: article.jade
 
 ---
@@ -45,6 +47,8 @@ You NEED to rent a pair of snowboots. Snowboots are thick and water proof. They 
 ## 8. Keep yourself warm.
 Needless to say it is going to be COLD. FREEZING COLD. And many tourist, especially who come from coast or pleasent areas don't realy realise what cold means and they find it very difficult to cope. So be prepared and do anything to keep yourself warm.
 ![8 things to remember in snow - warmclothes][warmclothes]
+
+<iframe width="908" height="511" src="https://www.youtube.com/embed/ZR0dByNatko" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 [romance]: 8-things-to-remember-in-snow-romance.gif
 [cloud]: 8-things-to-remember-in-snow-cloud.gif
