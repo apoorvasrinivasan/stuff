@@ -48,7 +48,7 @@ You NEED to rent a pair of snowboots. Snowboots are thick and water proof. They 
 Needless to say it is going to be COLD. FREEZING COLD. And many tourist, especially who come from coast or pleasent areas don't realy realise what cold means and they find it very difficult to cope. So be prepared and do anything to keep yourself warm.
 ![8 things to remember in snow - warmclothes][warmclothes]
 
-<iframe width="908" height="511" src="https://www.youtube.com/embed/ZR0dByNatko" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="511" src="https://www.youtube.com/embed/ZR0dByNatko" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 [romance]: 8-things-to-remember-in-snow-romance.gif
 [cloud]: 8-things-to-remember-in-snow-cloud.gif
