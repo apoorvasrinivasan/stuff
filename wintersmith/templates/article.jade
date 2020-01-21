@@ -4,8 +4,8 @@ block meta
   meta(property="og:url" content=locals.url+page.url)
   meta(property="og:type" content="website")
   meta(property="og:title"         content=page.title)
-  meta(property="og:description"   content=page.description)
-  meta(property="og:image"         content=page.image)
+  meta(property="og:description"   content=page.metadata.description)
+  meta(property="og:image"         content=page.metadata.image)
 block append vars
   - bodyclass = 'article-detail'
 
@@ -17,19 +17,27 @@ include author
   
 block beforeContent
   div.article-header
+  div.header.socials
+          a.icon.home-icon(href='https://apoorvasrinivasan.com')
+          a.icon.list-icon(href='/')
+          a.icon.reddit-icon( target='_blank' href='https://www.reddit.com/user/apoorvaShrini')
+          a.icon.youtube-icon( target='_blank' href='https://www.youtube.com/trippingHigh')
+          a.icon.instagram-icon( target='_blank' href='https://www.instagram/theTrippingHigh')
+          a.icon.facebook-icon( target='_blank' href='http://facebook.com/theTrippingHigh')
+          a.icon.twitter-icon( target='_blank' href='https://twitter.com/theTrippingHigh') 
+
 block content
   h1= page.title
-  div.shares(style='float:right')
+  div.shares(style='  display:flex;width: 210px;float: right;align-items: center;height: 40px;')
     div#fb-root
     div.fb-share-button(data-href=locals.url+page.url
     data-layout="button")
     script(type="IN/Share" data-url=locals.url+page.url)
     
-    a(href='https://telegram.me/share/url?url='+locals.url+page.url onclick='window.open(&apos;https://telegram.me/share/url?url==&apos;+encodeURIComponent(location.href)+&apos;&amp;bodytext=&amp;tags=&amp;text=&apos;+encodeURIComponent(document.title));return false;' target='_blank' rel='nofollow' style='text-decoration:none;' title='Share on Telegram')
-      img(src='https://telegram.org/img/t_logo.png' style='height:24px; width:24px;vertical-align:bottom;')
+    a.icon.telegram-icon(href='https://telegram.me/share/url?url='+locals.url+page.url onclick='window.open(&apos;https://telegram.me/share/url?url==&apos;+encodeURIComponent(location.href)+&apos;&amp;bodytext=&amp;tags=&amp;text=&apos;+encodeURIComponent(document.title));return false;' target='_blank' rel='nofollow' style='text-decoration:none;' title='Share on Telegram')
+      
     
-    a(class="whatsapp" href="" target="_blank")
-      img(src="https://whatsappbrand.com/wp-content/themes/whatsapp-brc/images/WhatsApp_Logo_6.png" style='height:32px; ;vertical-align:bottom;')
+    a(class="icon whatsapp whatsapp-icon" href="" target="_blank")
   p.date= moment.utc(page.date).format('DD. MMMM YYYY')
   
   article.article

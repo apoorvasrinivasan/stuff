@@ -23,21 +23,27 @@ html(lang='en')
       link(rel='alternate', href=locals.url+'/feed.xml', type='application/rss+xml', title=locals.description)
 
       
-      link(rel='stylesheet', href=locals.url+contents.css['main.css'].url)
+      link(rel='stylesheet', href=contents.css['main.css'].url)
       block top_scripts
   body(class=bodyclass)
     block header
     block beforeContent
-
-
     div.container
         block content
           
     footer
       div.container
         block footer
+        div.socials
+          a.icon.home-icon(href='/')
+          a.icon.reddit-icon( target='_blank' href='https://www.reddit.com/user/apoorvaShrini')
+          a.icon.youtube-icon( target='_blank' href='https://www.youtube.com/trippingHigh')
+          a.icon.instagram-icon( target='_blank' href='https://www.instagram/theTrippingHigh')
+          a.icon.facebook-icon( target='_blank' href='http://facebook.com/theTrippingHigh')
+          a.icon.twitter-icon( target='_blank' href='https://twitter.com/theTrippingHigh') 
+
           
-          section.copy
+        section.copy
             p &copy; #{ new Date().getFullYear() } #{ locals.owner } 
               //- please leave the "powered by" if you use the design
     block bottom_scripts

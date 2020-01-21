@@ -110,7 +110,8 @@ hr {
 
 
 
-
+.header.socials a{color:#ccc;opacity: .9}
+.header.socials a:hover{color:#fff;opacity:.9;}
 .header {
   background: #fff none repeat scroll 0 0;
   height: 50px;
@@ -170,6 +171,10 @@ footer .copy {
 
 footer .copy, footer .copy a {
   color: #8e8e8e;
+}
+ .socials{
+  display: flex;
+  text-align: center;
 }
 
 /* article */
@@ -294,6 +299,7 @@ footer .copy, footer .copy a {
     box-shadow: 1px 1px 1px #ccc;
     padding: 1em;
     margin:1em auto;
+    width: 40%;
   }
 /* code styling */
 
@@ -457,5 +463,70 @@ justify-content: space-evenly;
 }
 .article-detail .articles-footer article a{
   /*color:#db5b43;*/
+}
+
+@font-face {
+  font-family: Icons;
+  src: url("fonts/icons.eot");
+  src: url("fonts/icons.eot?#iefix") format('embedded-opentype'), url("fonts/icons.woff2") format('woff2'), url("fonts/icons.woff") format('woff'), url("fonts/icons.ttf") format('truetype'), url("fonts/icons.svg#icons") format('svg');
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}
+.icon {
+  flex: 1;
+  flex-basis: 50%;
+  opacity: 0.5;
+}
+.icon:before {
+  font-family: 'Icons';
+  margin-right: 5px;
+  font-size: 2.1em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.github-icon:before {
+  content: '\f09b';
+}
+.twitter-icon:before {
+  content: '\f099';
+}
+.stackoverflow-icon:before {
+  content: '\f16c';
+}
+.bitbucket-icon:before {
+  content: '\f171';
+}
+.linkedin-icon:before {
+  content: '\f0e1';
+}
+.pintrest-icon:before {
+  content: '\f0d2';
+}
+.instagram-icon:before {
+  content: '\f16d';
+}
+.whatsapp-icon:before {
+  content: '\f232';
+}
+.telegram-icon:before {
+  content: "\f3fe";
+}
+.reddit-icon:before {
+  content: "\f1a1";
+}
+.youtube-icon:before {
+  content: "\f167";
+}
+.facebook-icon:before {
+  content: "\f09a";
+}
+.home-icon:before {
+  content: "\f015";
+}
+.list-icon:before {
+  content: "\f022";
 }
 
