@@ -36,9 +36,10 @@ h1 {
 }
 }
 .article-list {
-    float: left;
     font-size: 15px;
-    width: 60%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 .other-links{
   float: left;
@@ -83,7 +84,7 @@ article header .date {
     padding: 2px 0;
     position: relative;
     text-align: center;
-    top: -20px;
+
     width: 165px;
 }
 .more:hover{
@@ -168,5 +169,4 @@ article.card img {
   }
 
 }
-
 
