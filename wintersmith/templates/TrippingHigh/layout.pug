@@ -49,13 +49,18 @@ html(lang='en')
     // Global site tag (gtag.js) - Google Analytics
 
     link(rel='alternate', href=locals.url+'/feed.xml', type='application/rss+xml', title=locals.description)
-    link(rel='stylesheet', href=contents.css['main.css'].url)
+    link(rel='stylesheet', href='/th/main.css')
     block top_scripts
   body(class=bodyclass)
-    block header
+    div.header
+      a.logo-name(href='/')
+      div.socials 
+        a.icon.youtube-icon( target='_blank' href='https://www.youtube.com/trippingHigh')
+        a.icon.instagram-icon( target='_blank' href='https://www.instagram.com/Tripping.High')
+        a.icon.facebook-icon( target='_blank' href='http://facebook.com/theTrippingHigh')
+        a.icon.twitter-icon( target='_blank' href='https://twitter.com/theTrippingHigh') 
     block beforeContent
-    div.container
-        block content
+    block content
           
     footer
       div.container
@@ -73,3 +78,8 @@ html(lang='en')
             p &copy; #{ new Date().getFullYear() } Tripping High
               //- please leave the "powered by" if you use the design
     block bottom_scripts
+
+
+
+
+
