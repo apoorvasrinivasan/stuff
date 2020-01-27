@@ -21,10 +21,9 @@ block head
     script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
   
-
-block top_scripts
-  link(rel='stylesheet', href=contents.css['custom.css'].url)
-block beforeContent
-  
+  - bodyclass = 'index'  
 block content
-  p lala
+  section.white.cover
+    div.coding-logo
+    h1 creating quality online experience
+  section.grey.cover
