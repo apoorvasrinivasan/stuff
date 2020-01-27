@@ -95,7 +95,7 @@ li {
 
 section {
     display: flex;
-    padding: 3% 1%;
+    padding: 0 2%;
 }
 section.white {
     background: white;
@@ -105,10 +105,43 @@ section.grey {
 }
 section.cover{background-size:cover;  height: inherit;}
 .index h1 {
-    margin: 4em auto;
+    margin: 10em auto;
+}
+.header .right.menu {
+    width: 6em;
+    position: fixed;
+    right: 0;
+    top: 30%;
+    bottom: 0;
+    display: flex;
+    flex-flow: column;
+    padding-right:  2em;
+
+}
+.header .menu a {
+    height: 42px;
+    text-align: right;
+        cursor: pointer;
 }
 /* page header */
 
+
+rect:hover{
+  fill:#44aa00;
+}
+rect{fill:#000;}
+
+rect.catepillarleg{
+  width:32px;
+  height:13px;
+  opacity:1;
+  fill-opacity:1;
+  stroke:none;
+  stroke-linecap:round;
+
+
+}
+svg{border:1px solid red;}
 
 
 .header .socials a{color:#999;opacity: .9}
@@ -135,9 +168,7 @@ section.cover{background-size:cover;  height: inherit;}
     width: 100%;
     background-size: contain;
 }
-.index h1{
 
-}
 
 
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  width="500px"
+   height="100px"
+   viewBox="0 0 100 20"
+   version="1.1"
+   id="svg1526"
+   
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="logo.svg">
+  <defs
+     id="defs1520" />
+
+
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-20.244924,-68.702327)">
+    <g
+       transform="matrix(0.26458333,0,0,0.26458333,-18.109739,-61.924453)"
+       id="g1429">
+     <rect
+         class='caterpillar'
+         ry="7.6055684"
+         y="515"
+         x="152.65718"
+         height="15.211137"
+         width="190.88216"
+         id="rect1303"/>
+     <rect
+         ry="6.6535754"
+         y="535"
+         x="160.59026"
+        class='catepillarleg'
+         id="rect1309"/>
+      <rect
+   
+         class='catepillarleg'
+         id="rect1307"
+         
+         x="208.05943"
+         y="535"
+         ry="6.6535754"/>
+ 
+        <rect
+         class='catepillarleg'
+         ry="6.6535754"
+         y="535"
+         x="258.59479"
+         id="rect1305"/>
+      <rect
+         id="rect1311"
+         class="catepillarleg"
+         x="307.73639"
+         y="535"
+         ry="6.6535754"/>
+      
+                       
+                       
+     <text
+         transform="rotate(-22.448182)"
+            
+         id="text1315"
+         y="500"
+         x="80.380806"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.90904617px;line-height:1.25;font-family:Recoleta;-inkscape-font-specification:Recoleta;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.64545226"
+         xml:space="preserve"
+      >
+      <tspan
+           style="fill:#000000;stroke-width:1.64545226"
+           y="605"
+           x="120"
+           id="tspan1313"
+           sodipodi:role="line">;</tspan></text>
+   
+     
+    </g>
+  </g>
+</svg>
+
+
+<style>
+  rect:hover{
+  fill:#44aa00;
+}
+rect{fill:#000;}
+
+rect.catepillarleg{
+  width:32px;
+  height:13px;
+  opacity:1;
+  fill-opacity:1;
+  stroke:none;
+  stroke-linecap:round;
+
+}
+svg{border:1px solid red;}
+
+</style>

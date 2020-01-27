@@ -34,8 +34,25 @@ h1 {
 .h1-container > h2::before, .h1-container > h2::after {
   content: "";
 }
-}
-.article-list {
+}Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/vwxfvphys6xp/.ssh/id_rsa_godaddy.
+Your public key has been saved in /home/vwxfvphys6xp/.ssh/id_rsa_godaddy.pub.
+The key fingerprint is:
+ce:2e:dc:15:00:be:1d:cd:05:0b:6e:5f:b5:2e:bf:ac 
+The key's randomart image is:
++--[ RSA 2048]----+
+|      ... ... .  |
+|     . ..+ o . . |
+|      . +.+ . .  |
+|       + o.. .   |
+|      . S ... .  |
+|       o  .  o   |
+|     . .o.    .  |
+|      o..    . . |
+|       ..   E.o  |
++-----------------+article-list {
     font-size: 15px;
     width: 100%;
     display: flex;
