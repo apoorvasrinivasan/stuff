@@ -23,19 +23,52 @@ block head
   
   - bodyclass = 'index'  
 block content
-  section.white.cover
+  section.white.cover.flex
     div.coding-logo
     h1 creating quality online experience
-    svg#svg1526(xmlns:dc='http://purl.org/dc/elements/1.1/', xmlns:cc='http://creativecommons.org/ns#', xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#', xmlns:svg='http://www.w3.org/2000/svg', xmlns='http://www.w3.org/2000/svg', xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd', xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape', width='500px', height='100px', viewBox='0 0 100 20', version='1.1', inkscape:version='0.92.4 (5da689c313, 2019-01-14)', sodipodi:docname='logo.svg')
+    // Created with Inkscape (http://www.inkscape.org/)
+    svg#svg1526(xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns#' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' width='500px' height='100px' viewbox='0 0 100 20' version='1.1' inkscape:version='0.92.4 (5da689c313, 2019-01-14)' sodipodi:docname='logo.svg')
       defs#defs1520
       g#layer1(inkscape:label='Layer 1', inkscape:groupmode='layer', transform='translate(-20.244924,-68.702327)')
-        g#g1429(transform='matrix(0.26458333,0,0,0.26458333,-18.109739,-61.924453)')
-          rect#rect1303.caterpillar(ry='7.6055684', y='515', x='152.65718', height='15.211137', width='190.88216')
-          rect#rect1309.catepillarleg(ry='6.6535754', y='535', x='160.59026')
-          rect#rect1307.catepillarleg(x='208.05943', y='535', ry='6.6535754')
-          rect#rect1305.catepillarleg(ry='6.6535754', y='535', x='258.59479')
-          rect#rect1311.catepillarleg(x='307.73639', y='535', ry='6.6535754')
-          text#text1315(transform='rotate(-22.448182)', y='500', x='80.380806', style='font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.90904617px;line-height:1.25;font-family:Recoleta;-inkscape-font-specification:Recoleta;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.64545226', xml:space='preserve')
-            tspan#tspan1313(style='fill:#000000;stroke-width:1.64545226', y='605', x='120', sodipodi:role='line') ;
+        g#body(transform='matrix(0.26458333,0,0,0.26458333,-18.109739,-61.924453)')
+          rect#body1.caterpillar(ry='7.6055684', y='515', x='152.65718', height='15.211137', width='190.88216')
+          text#eyes(transform='rotate(-22.448182)', y='500', x='80.380806')
+            tspan#tspan1313(y='605', x='120', sodipodi:role='line')
+        g#leg(transform='matrix(0.26458333,0,0,0.26458333,-18.109739,-61.924453)')
+          rect#leg1.catepillarleg(ry='6.6535754', y='535', x='160.59026')
+          rect#leg2.catepillarleg(x='208.05943', y='535', ry='6.6535754')
+          rect#leg3.catepillarleg(ry='6.6535754', x='258', y='535')
+          rect#leg4.catepillarleg(x='307.73639', y='535', ry='6.6535754')
+      animate(xlink:href='#leg1', attributename='x', by='10', dur='5s', begin='2s', additive='sum', accumulate='sum', repeatcount='indefinite', keytimes='0;1', calcmode='spline', keysplines='1, 0, 0, 0')
+      animate(xlink:href='#leg2', attributename='x', by='10', dur='5s', begin='2s', additive='sum', accumulate='sum', repeatcount='indefinite', keytimes='0;1', calcmode='spline', keysplines='1, 0, 0, 0')
+      animate(xlink:href='#leg3', attributename='x', by='10', dur='5s', begin='2s', additive='sum', accumulate='sum', repeatcount='indefinite', keytimes='0;1', calcmode='spline', keysplines='1, 0, 0, 0')
+      animate(xlink:href='#leg4', attributename='x', by='10', dur='5s', begin='2s', additive='sum', accumulate='sum', repeatcount='indefinite', keytimes='0;1', calcmode='spline', keysplines='1, 0, 0, 0')
+      animate(xlink:href='#body1', attributename='x', by='10', dur='5s', additive='sum', accumulate='sum', repeatcount='indefinite', calcmode='spline', keytimes='0;1', keysplines='1, 0, 0, 0')
+      animate(xlink:href='#eyes', attributename='x', by='10', dur='5s', additive='sum', accumulate='sum', repeatcount='indefinite', calcmode='spline', keytimes='0;1', keysplines='1, 0, 0, 0')
+
 
   section.grey.cover
+    h2#services services
+    ul 
+      li Static websites
+      li Website Maintainance 
+      li CMS: Wordpress, Drupal
+      li Web based Software
+      li Dashboards and charts
+      li Logo and Branding
+      
+  section.white.cover
+    h2#clients Clients
+    ul 
+      li Mazzalig
+      li Cocreate Change
+      li Reimagine Plastic
+      li Aspirelabs
+      li Cashforphone
+  section.grey.cover
+    h2#contact Contact
+    iframe(src='https://form.jotform.com/200272964600045', width='100%', height='95%' frameborder='0', marginheight='0', marginwidth='0') Loading&mldr;
+
+      
+
+      
