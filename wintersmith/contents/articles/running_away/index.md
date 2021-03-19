@@ -4,6 +4,7 @@ date: 2010-05-22  16:35
 author: apoorva
 template: article.jade
 intro: Wonders can happen during a boring enginnering enterance exam
+categories: poem, life
 ---
 
 

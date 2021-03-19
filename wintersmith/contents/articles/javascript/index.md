@@ -4,6 +4,7 @@ date: 2017-08-05  20:10
 author: apoorva
 template: article.jade
 intro:  What I know of javascript. How to begin and debug
+categories: technical
 ---
 
 

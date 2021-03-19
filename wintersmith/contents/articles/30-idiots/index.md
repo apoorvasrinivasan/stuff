@@ -4,6 +4,7 @@ date: 2010-02-22  16:35
 author: apoorva
 template: article.jade
 intro: Farewell isnt easy especially from a college that gave you much more than just education
+categories: life, poem
 ---
 
 3 years ago I thought,  

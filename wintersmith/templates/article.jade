@@ -31,16 +31,19 @@ block content
     a(class="whatsapp" href="" target="_blank")
       img(src="https://whatsappbrand.com/wp-content/themes/whatsapp-brc/images/WhatsApp_Logo_6.png" style='height:32px; ;vertical-align:bottom;')
   p.date= moment.utc(page.date).format('DD. MMMM YYYY')
-  
+  h3
   article.article
     section.content!= typogr(page.html).typogrify()
 
 block prepend footer
   div.articles-footer
-    - var articles = env.helpers.getArticles(contents);
-    for a in articles
-      article.card.small
-        a(href=a.url)= a.title
+    for c in env.helpers.getPageCategory(page)
+      div
+        | More in #{c.category} 
+        - var articles = env.helpers.getArticlesByCategory(contents, c.category);
+        for a in articles
+          article.card.small
+            a(href=a.url)= a.title
   div.nav
     a(href=contents.index.url) « Full blog
 block bottom_scripts

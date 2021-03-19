@@ -8,6 +8,16 @@ block beforeContent
       h1 #{locals.name}
       h2 #{locals.description}
 block content
+  section.categories
+    - var articlesByCategory = env.helpers.getArticlesPerCategory()
+   
+      a(href='/').label.active All
+    each catObj, category in articlesByCategory
+    
+      
+      a(href=catObj.url).label #{category}
+      //- small.badge (#{catObj.articles.length} )
+   
   div.article-list
     include author
     each article in articles

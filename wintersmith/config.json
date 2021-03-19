@@ -1,7 +1,8 @@
 {
   "locals": {
-    "url": "http://blog.apoorvasrinivasan.com",
+
     "name": "Apoorva Srinivasan",
+    "url":"http://blog.apoorvasrinivasan.com",
     "owner": "Apoorva",
     "description": "abstruse",
     "logo":"http://i.kinja-img.com/gawker-media/image/upload/s--7dyXeQ3b--/17mcvv099jo1ipng.png",
@@ -9,11 +10,13 @@
   },
   "baseUrl":"/",
   "plugins": [
-    "./plugins/paginator.coffee"
+    "./plugins/paginator.coffee",
+    "./plugins/categorizer.coffee"
   ],
   "require": {
     "moment": "moment",
     "typogr": "typogr"
+
   },
   "jade": {
     "pretty": true
@@ -25,5 +28,13 @@
    "paginator": {
     "perPage": 20
   
-  }
+  },
+  
+    "categorizer": {
+        "template" : "category.jade",
+        "articles" : "articles",
+        "index_filename" : "/archive/index.html",
+        "filtered_filename" : "/category/%category/index.html"
+      
+    }
 }

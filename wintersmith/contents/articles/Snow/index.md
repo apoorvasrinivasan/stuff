@@ -5,6 +5,7 @@ author: apoorva
 description: 8 thinkgs to remember in snow
 image : 8-things-to-remember-in-snow-romance.gif
 template: article.jade
+categories: travel
 
 ---
 

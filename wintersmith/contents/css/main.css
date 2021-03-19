@@ -64,7 +64,8 @@ pre {
 h1 {
   font-size: 2em;
   margin-bottom: 1em;
-  /*font-family: "Operator A";*/
+  text-transform: capitalize;
+  font-family: "Operator A";
 }
 
 h2 {
@@ -133,6 +134,7 @@ hr {
 
 footer {
   margin: 3em 0;
+  clear: both;
 }
 
 footer .nav {
@@ -224,6 +226,26 @@ footer .copy, footer .copy a {
 }
 
 
+section.categories {
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-between;
+}
+.categories a.label:hover,  
+.categories  a.label.active {
+    background-color: #2c3e4a;
+    transform: scale(1.1);
+}
+.categories a.label {
+    padding: 5px 10px;
+    /* margin: 0 10px; */
+    background: #2196f3;
+    color: white;
+    border-radius: 4px;
+    font-variant: small-caps;
+    transition: .5s;
+    /*transition-property: background;*/
+}
 
 /* archive */
 

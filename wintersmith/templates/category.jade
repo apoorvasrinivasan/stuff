@@ -1,0 +1,40 @@
+
+extends layout
+block beforeContent
+  div.article-header
+block content
+  section
+    h1 #{category} Articles
+        
+     
+
+    
+    section.categories
+      - var articlesByCategory = env.helpers.getArticlesPerCategory()
+      a(href='/').label Home
+      each catObj, categor in articlesByCategory
+        if category == categor
+          a(href=catObj.url).label.active #{categor}
+        else
+          a(href=catObj.url).label #{categor}
+        //- small.badge (#{catObj.articles.length} )
+       
+
+
+    div.article-list
+      - var articles = env.helpers.getArticlesByCategory(contents, category)
+      each article in articles
+        article.card
+          header
+            h2
+              a(href=article.url)= article.title
+            p.date= moment.utc(article.date).format('DD. MMMM YYYY')
+          section.content
+            if article.metadata.banner
+              img.artcile-image(src=article.url + article.metadata.banner)
+            if article.metadata.intro
+              != typogr(article.metadata.intro).typogrify()
+            else if article.intro.length > 0
+              != typogr(article.intro).typogrify()
+          if article.hasMore
+              a.more(href=article.url) Continue Reading

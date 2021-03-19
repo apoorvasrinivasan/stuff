@@ -3,6 +3,7 @@ title: Why aren't you on whatsapp ?
 date: 2017-04-30
 author: apoorva
 template: article.jade
+categories: social media, life
 ---
 
 Every time I tell anyone I have uninstalled WhatsApp, people wonder why. I type out a long list of features in reply. I am hence writing this to explain why i moved to Telegram.
