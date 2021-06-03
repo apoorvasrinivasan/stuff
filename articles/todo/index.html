@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width"><meta property="og:url" content="https://blog.apoorvasrinivasan.com/articles/todo/"><meta property="og:type" content="website"><meta property="og:title" content="Simple Todo in plain Javascript"><meta property="og:image" content="https://blog.apoorvasrinivasan.com/articles/todo/undefined"><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://blog.apoorvasrinivasan.com/articles/todo/"><meta property="twitter:title" content="Simple Todo in plain Javascript"><meta property="twitter:image" content="https://blog.apoorvasrinivasan.com/articles/todo/undefined"><meta property="twitter:description"><meta property="og:description"><meta keywords="coding, simple todo list, todo in javascript, todo list"><meta property="twitter:description" content="how to start javascript, learn javascript, introduction to javascript 2021, basic todo list in javascript"><meta property="og:description" content="how to start javascript, learn javascript, introduction to javascript 2021, basic todo list in javascript"><script data-ad-client="ca-pub-2165636896440969" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" defer></script><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-71505892-1', 'auto');
+ga('send', 'pageview');
+</script><title>Simple Todo in plain Javascript - Apoorva Srinivasan</title><link rel="alternate" href="https://blog.apoorvasrinivasan.com/feed.xml" type="application/rss+xml" title="abstruse"><link rel="stylesheet" href="https://blog.apoorvasrinivasan.com/css/main.css"></head><body class="article-detail"><div class="article-header"><section class="categories"><a class="label" href="/">Home</a><a class="label" href="/category/travel/">travel</a><a class="label" href="/category/tv-show/">tv-show</a><a class="label" href="/category/technical/">technical</a><a class="label" href="/category/life/">life</a><a class="label" href="/category/poem/">poem</a><a class="label" href="/category/social%20media/">social media</a><a class="label" href="/category/romance/">romance</a></section></div><div class="container"><h1>Simple Todo in plain Javascript</h1><div class="shares"><div id="fb-root"></div><div class="fb-share-button" data-href="https://blog.apoorvasrinivasan.com/articles/todo/" data-layout="button"></div><div class="twitter"><a class="twitter-share-button" href="https://blog.apoorvasrinivasan.com/articles/todo/?text= Intersting article on Simple Todo in plain Javascript" via="apoorvashrini" hashtags="traveltips">Tweet </a></div><script type="IN/Share" data-url="https://blog.apoorvasrinivasan.com/articles/todo/"></script><div class="telegram"><a href="https://telegram.me/share/url?url=https://blog.apoorvasrinivasan.com/articles/todo/" onclick="window.open(&amp;apos;https://telegram.me/share/url?url==&amp;apos;+encodeURIComponent(location.href)+&amp;apos;&amp;amp;bodytext=&amp;amp;tags=&amp;amp;text=&amp;apos;+encodeURIComponent(document.title));return false;" target="_blank" rel="nofollow" style="text-decoration:none;" title="Share on Telegram"><img src="https://telegram.org/img/t_logo.png" style="height:24px; width:24px;vertical-align:bottom;"></a></div><div class="what"><a class="whatsapp" href="" target="_blank"><img src="https://whatsappbrand.com/wp-content/themes/whatsapp-brc/images/WhatsApp_Logo_6.png" style="height:32px; ;vertical-align:bottom;"></a></div></div><p class="date">25. March 2021</p><p id="wordCount"></p><p id="readingTime"></p><h3></h3><article class="article"><section class="content"><h2 id="to-do-list"><span class="caps">TO</span>-<span class="caps">DO</span> list</h2>
+<p>Todo list are the first step to coding after <code>hello world</code>. <span class="caps">TO</span>-do lists are basically lists that are created by users  mentioning the tasks they need to get done. They can assign priority or category to them. As they keep doing the tasks, user have an option of marking it as done so as to show their<span class="widont">&nbsp;</span>progress.</p>
+<p>In this tutorial we are going to make a very simple todo list using basic vanilla <span class="caps">JS</span>. To start, create and save an <code>html</code> file. In order to do that, you can refer my previous tutorial <a href="https://blog.apoorvasrinivasan.com/articles/javascript/">here</a></p>
+<h3 id="html"><span class="caps">HTML</span></h3>
+<p>To begin with , let’s write the basic html code for entering the<span class="widont">&nbsp;</span>list.</p>
+<input type='text' class='todo' placeholder = 'enter an item'>
+
+<pre><code>&lt;input type=&#39;text&#39; class=&#39;todo&#39; placeholder = &#39;enter an item&#39;&gt;</code></pre><p>To add text before it, you can add a <code>label</code></p>
+<pre><code>&lt;label&gt; Enter an item &lt;input type=&#39;text&#39; class=&#39;todo&#39;&gt; &lt;label&gt;</code></pre><p><label> Enter an item <input type='text' class='todo'> <label></p>
+<p>Next, we are going to display the do to list. For that, we create a <code>ul</code> element and give it a nice id. Initially, it will be blank list and will not effect the way your document looks<span class="widont">&nbsp;</span>like.</p>
+<ul id = 'TodoList'></ul>
+
+
+
+<h3 id="javascript"><span class="caps">JAVASCRIPT</span></h3>
+<p>First functionality to add is to enter the input to the displayed list.  We need the javascript function<span class="widont">&nbsp;</span>to </p>
+<ul>
+<li>add a list item to the <code>ul</code> <ul>
+<li>access the ul</li>
+<li>create a li<span class="widont">&nbsp;</span>element</li>
+<li>set its status as <strong>tbd</strong></li>
+</ul>
+</li>
+<li>the list item should contain the text entered by the user<ul>
+<li>set the value of li as the input<span class="widont">&nbsp;</span>box</li>
+<li>clear the input<span class="widont">&nbsp;</span>box</li>
+</ul>
+</li>
+<li>this should happen as soon as the user finishes typing.<ul>
+<li>trigger the function after the input box value<span class="widont">&nbsp;</span>changes.</li>
+</ul>
+</li>
+</ul>
+<p>Lets write the<span class="widont">&nbsp;</span>function</p>
+<pre><code>var addTodo = function (el) {
+  // get the value of the input
+  var todoValue = el.value;
+  el.value = &#39;&#39;;
+
+  // get the UL element
+  var ul = document.getElementById(&quot;TodoList&quot;);
+
+  // create a list item
+  var li = document.createElement(&quot;li&quot;);
+    li.setAttribute(&#39;data-status&#39;,&#39;tbd&#39;);
+  li.innerHTML = todoValue;
+
+  // append to the ul
+  ul.appendChild(li);
+};</code></pre><p>Now we need to set to execute the function only when the user finishes typing. for that, we add the event handler, <code>onchange</code>.</p>
+<pre><code>&lt;input type=&#39;text&#39; class=&#39;todo&#39; onchange=&#39;addTodo(this)&#39;/&gt;</code></pre><p>Next step is to add checkboxes to the list items so that user can mark any item as<span class="widont">&nbsp;</span>done.</p>
+<pre><code>  // add the checkbox
+  check = document.createElement(&quot;check&quot;);
+  check.type=&#39;checkbox&#39;;
+  li.appendChild(check);</code></pre><p><strong>To change the status of the<span class="widont">&nbsp;</span>task</strong></p>
+<p>To be able to change the status of the task, the function needs<span class="widont">&nbsp;</span>to </p>
+<ul>
+<li>mark the task as done<ul>
+<li>access the checkbox that is<span class="widont">&nbsp;</span>clicked</li>
+<li>access the list<span class="widont">&nbsp;</span>item</li>
+<li>change the data attribute from <code>tbd</code> to <code>done</code></li>
+<li>add necessary <span class="caps">CSS</span> to visually represent the<span class="widont">&nbsp;</span>same. </li>
+</ul>
+</li>
+<li>trigger when the checkbox is checked<ul>
+<li>tell javascript to listen to any event that changes the condition of the<span class="widont">&nbsp;</span>checkbox.</li>
+</ul>
+</li>
+<li>undo the changes when the checkbox is<span class="widont">&nbsp;</span>unchecked.</li>
+</ul>
+<p>For this, first we add a <code>event listener</code> to the checkbox we just created<span class="widont">&nbsp;</span>as</p>
+<pre><code>input.addEventListener(&#39;change&#39;,changeStatus);</code></pre><p>Change is the event action, and <code>changeStatus</code> is the function to be<span class="widont">&nbsp;</span>executed.</p>
+<p>Lets write this new function that changes the status of the <code>li</code></p>
+<pre><code>var changeStatus = function(){
+
+   // get the list item that triggered this event.
+   el = event.target;
+   var checked = el.checked;
+
+  // get the parent li element
+  var li = el.parentElement;
+  // if the checkbox is checked
+   if(checked)
+     li.setAttribute(&#39;data-status&#39;,&#39;done&#39;);
+  else
+    li.setAttribute(&#39;data-status&#39;,&#39;tbd&#39;);
+
+ }
+
+ // CSS
+ #TodoList li[data-status=&quot;done&quot;] {
+    color: grey;
+    font-style: italic;
+    text-decoration: line-through;
+}</code></pre><p>This was a very simple basic <span class="caps">TODO</span> list program in javascript. You can find the code <a href="https://github.com/apoorvasrinivasan/staticblogSite/blob/master/todo/js/index.html">here</a></p>
+</section></article><div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Comment Formis loading comments...</a></div></div><footer><div class="container"><div class="articles-footer"><div>More in technical <article class="card small"><a href="/articles/pug-angular/">Run PUG(jade) with Angular 10+</a></article><article class="card small"><a href="/articles/todo/">Simple Todo in plain Javascript</a></article><article class="card small"><a href="/articles/javascript/">Introduction to Javascript</a></article><article class="card small"><a href="/articles/markdown-syntax/">Markdown syntax</a></article><article class="card small"><a href="/articles/uml/">Pre exam outburst</a></article></div></div><div class="nav"><a href="/">« Full blog</a></div><section class="categories"><a href="/category/travel/">travel</a><small class="badge">(2 )</small> | <a href="/category/tv-show/">tv-show</a><small class="badge">(1 )</small> | <a href="/category/technical/">technical</a><small class="badge">(5 )</small> | <a href="/category/life/">life</a><small class="badge">(4 )</small> | <a href="/category/poem/">poem</a><small class="badge">(4 )</small> | <a href="/category/social%20media/">social media</a><small class="badge">(1 )</small> | <a href="/category/romance/">romance</a><small class="badge">(1 )</small> </section><section class="copy"><p>&copy; 2021 Apoorva </p></section></div></footer><script type="text/javascript" id="hcb">/*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24KeIzb8oHAIM9WpoQDxz2e1"+"&opts=16862&num=10&ts=1616207476859");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ 
+
+</script><script src="https://platform.linkedin.com/in.js" type="text/javascript"> </script><script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+function decorateWhatsAppLink() {
+  //set up the url
+  var url = 'whatsapp://send?text=';
+
+  //define the message text
+  var text = 'Hey check out this awesome blog at'+location.href;
+
+  //encode the text
+  var encodedText = encodeURIComponent(text);
+
+  //set the href attribute on the link
+  document.querySelector('a.whatsapp').setAttribute('href', url + encodedText);
+}
+
+//call the decorator function
+decorateWhatsAppLink()
+
+window.twttr = (function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0],
+  t = window.twttr || {};
+if (d.getElementById(id)) return t;
+js = d.createElement(s);
+js.id = id;
+js.src = "https://platform.twitter.com/widgets.js";
+fjs.parentNode.insertBefore(js, fjs);
+
+t._e = [];
+t.ready = function(f) {
+  t._e.push(f);
+};
+
+return t;
+}(document, "script", "twitter-wjs"));
+
+function countWords(str) {
+     str = str.replace(/(^\s*)|(\s*$)/gi,"");
+     str = str.replace(/[ ]{2,}/gi," ");
+     str = str.replace(/\n /,"\n");
+     return str.split(' ').length;
+}
+
+  words = document.getElementsByTagName('article')[0].textContent;
+  cw = countWords(words);
+  n = cw/220;
+   document.getElementById('wordCount').innerHTML = cw + ' words'
+  sec =  Math.round((n - Math.floor(n)) * 60);
+  x =  'Reading time : '+Math.floor(n) + ' Min and ' + sec +' seconds';
+  document.getElementById('readingTime').innerHTML = x;  
+</script><style>.home-desc, small.admin-link {
+  opacity: 0;
+}
+.categories {width:70%;margin:0 20px;}
+.categories a.label{background-color:transparent;}</style></body></html>

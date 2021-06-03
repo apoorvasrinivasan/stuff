@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8" ?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Apoorva Srinivasan</title><atom:link href="https://blog.apoorvasrinivasan.com/feed.xml" rel="self" type="application/rss+xml"></atom:link><link>https://blog.apoorvasrinivasan.com</link><description>abstruse</description><pubDate>Thu, 03 Jun 2021 12:10:00 +0630</pubDate><generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator><language>en</language><item><title>Run PUG(jade) with Angular 10+</title><link>https://blog.apoorvasrinivasan.com/articles/pug-angular/</link><pubDate>Thu, 03 Jun 2021 12:10:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/pug-angular/</guid><author></author><description>&lt;p&gt;The purpose of this blog is to provide step by step steps to setup pug with angular. This does not contain tutorials about node, npm, or &lt;code&gt;angular&lt;/code&gt; itself.
+Angular CLI supports multiple built-in CSS preprocessor options for component styling like Sass/SCSS, LESS, and Stylus. However, when it comes to templates, only two options are available: HTML and SVG. This is in spite of many more efficient options such as Pug, Slim, HAML among others being in existence.&lt;/p&gt;
+&lt;h2 id=&quot;what-is-pug&quot;&gt;What is pug&lt;/h2&gt;
+&lt;p&gt;For those who don’t know, pug ,formerly known as jade, is an HTML templating engine that has simple syntax to write clear html code. Additionally, it allows variables and loops for coding block repetition.
+Code written in &lt;strong&gt;pug&lt;/strong&gt; is 
+clean, well indented and easy to read.
+it has helpers like loops, computations and variables. &lt;/p&gt;
+&lt;p&gt;Some examples include
+HTML&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div id = &amp;#39;someDivID&amp;#39; class=&amp;#39;class&amp;#39;&amp;gt;
+&amp;lt;p class=&amp;#39;class1&amp;#39;&amp;gt;some text&amp;lt;/p&amp;gt;
+&amp;lt;p class=&amp;#39;class2&amp;#39;&amp;gt;some text&amp;lt;/p&amp;gt;
+&amp;lt;p class=&amp;#39;class3&amp;#39;&amp;gt;some text&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;JADE /PUG&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;div#someDivID.class
+    - var ii =[1,2,3]
+    each i in ii
+      p(class=&amp;quot;class&amp;quot;+i) some text&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;installing&quot;&gt;Installing&lt;/h2&gt;
+&lt;h3 id=&quot;firstly-we-need-to-install-pug-and-cli&quot;&gt;Firstly, we need to install &lt;a href=&quot;https://www.npmjs.com/package/pug&quot;&gt;pug&lt;/a&gt; and cli&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;npm install pug pug-cli pug-loader -g&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;2-add-a-rule-file&quot;&gt;2. add a rule file&lt;/h3&gt;
+&lt;p&gt;create a file in the root directory and name it &lt;strong&gt;pug-rule-insert.js&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const fs = require(&amp;#39;fs&amp;#39;);
+const commonCliConfig = &amp;#39;node_modules/@angular-devkit/build-angular/src/webpack/configs/common.js&amp;#39;;
+const pug_rule = `\n\t\t\t\t\t\t\t\t{ test: /.(pug|jade)$/, loader: &amp;#39;apply-loader!pug-loader?self&amp;#39; },`;
+fs.readFile(commonCliConfig, (err, data) =&amp;gt; {
+  if (err) { throw err; }
+const configText = data.toString();
+  if (configText.indexOf(pug_rule) &amp;gt; -1) { return; }
+const position = configText.indexOf(&amp;#39;rules: [&amp;#39;) + 8;
+  const output = [configText.slice(0, position), pug_rule, configText.slice(position)].join(&amp;#39;&amp;#39;);
+  let file = fs.openSync(commonCliConfig, &amp;#39;r+&amp;#39;);
+  fs.writeFile(file, output, () =&amp;gt; {});
+  fs.close(file, () =&amp;gt; {});
+});&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Angular 6-&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;const commonCliConfig = &amp;#39;node_modules/@angular/cli/models/webpack-configs/common.js&amp;#39;;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Angular 6+ &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;const commonCliConfig = &amp;#39;node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/common.js&amp;#39;;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;If this throws error, find out where common.js file is and change the path accordingly.&lt;/p&gt;
+&lt;h3 id=&quot;add-rules-to-package-json&quot;&gt;Add rules to package.json&lt;/h3&gt;
+&lt;p&gt;in the scripts section of package.json, add the following scripts.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;quot;start&amp;quot;: &amp;quot;pug -w src &amp;amp; ng serve&amp;quot;,
+&amp;quot;afterInstall&amp;quot;: &amp;quot;node pug-rule-insert.js&amp;quot;,&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;pug -w src&lt;/code&gt; helps us to watch over the src files and create corrosponding HTML files as we edit. 
+&lt;code&gt;ng serve&lt;/code&gt; serves your project in the browser.
+Since both these scripts are listening scripts, we need tthem to run concurrently (simultaneously). which is why we use the &lt;code&gt;&amp;amp;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Just in case, remove any  old package file 
+&lt;code&gt;rm package.json-lock&lt;/code&gt;
+to execute the pug script run&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm run afterInstall&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Thats it. you are ready to code your files in pug!!&lt;/p&gt;
+&lt;h3 id=&quot;to-write-the-files&quot;&gt;To write the files&lt;/h3&gt;
+&lt;p&gt;in the folder of your component, create .pug files and save it.
+Note: you will have to give the path to your html file in the component typescript&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;@Component({
+   selector: &amp;#39;my-root&amp;#39;,
+   templateUrl: &amp;#39;./app.component.html&amp;#39;,
+   styleUrls: [&amp;#39;./app.component.scss&amp;#39;]
+})
+export class AppComponent {}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You will notice that the pug cli has created the corrosponding html as soon as you save your pug file, thanks to the watch command.&lt;/p&gt;
+&lt;p&gt;you are ready to start coding in pug. Since the &lt;code&gt;.html&lt;/code&gt; files are autogenerated, you might want to add those in the &lt;code&gt;.gitignore&lt;/code&gt; to avoid someone changing  it.&lt;/p&gt;
+&lt;p&gt;to serve, now type&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ng run start&lt;/code&gt;&lt;/pre&gt;</description></item><item><title>Friends TV Characters - Who am I?</title><link>https://blog.apoorvasrinivasan.com/articles/friends-whoami/</link><pubDate>Fri, 26 Mar 2021 14:10:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/friends-whoami/</guid><author></author><description>&lt;p&gt;A brief analysis of the friends’ characters based on Carl Jung’s theory of psyche and collective unconscious.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/friends-whoami/rossjoeychandler.jpg&quot; alt=&quot;Friends TV Characters - who am I?&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Friends is a popular American sitcom that lasted ten seasons. It is a story revolving six main characters, Ross, Rachel, Chandler, Monica, Joey and Phoebe in their 20 somethings figuring through life in New York city. The sitcom gained worldwide popularity amongst all generations to the extent that the actors make about $20 Million each year in royalties even today.&lt;/p&gt;
+&lt;p&gt;When it comes to the decade long story, fans still fight about certain plot points and situations. Same goes with the friends themselves. Each friend is known for a specific personality trait that viewers identify them with and to some extent, themselves. Even though they are put in various situations, it is quite often that the script involves around a specific trait used to magnify the personality.&lt;/p&gt;
+&lt;p&gt;Fans are often found taking the “which friend are you quiz” or labelling each other with people on the show. &lt;/p&gt;
+&lt;p&gt;example, Monica Geller is an obsessive and control freak and known for her enthusiasm for neatness . Any one who feels inclined towards cleanliness or organising their lives, feel they are &lt;em&gt;Monica&lt;/em&gt;. Similarly any one who identifies themselves with being stylish and trendy relates with Rachel.&lt;/p&gt;
+&lt;p&gt;In this article we are going to explore the main characters and their similarities towards our collective unconscious. Even though they are far different from each other, represent part of a self everyone possesses and how these three together make an average viewer making it relatable as a whole. &lt;/p&gt;
+&lt;h2 id=&quot;jungian-archetypes&quot;&gt;Jungian Archetypes&lt;/h2&gt;
+&lt;p&gt;To further understand, let’s see what Carl Jung had to say. Carl Gustav Jung(1875–1961) was a Swiss psychologist and psychiatrist who proposed the theory of the psyche. The word psyche originally meant ‘soul’ or ‘spirit’ but by the turn of the 20th century increasingly came to refer to ‘mind’. In Jungian psychology one’s psyche can be seen as their total personality and encompasses all one’s thoughts, behaviours, feelings, and emotions.
+A human psyche can majorly categories into three parts&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Conscious mind or ego- responsible for the conscious actions thoughts feelings that people are aware of&lt;/li&gt;
+&lt;li&gt;Personal unconscious - responsible for repressed memories and temporary forgotten information&lt;/li&gt;
+&lt;li&gt;Collective unconscious - represents reservoir of our experiences as a species, a kind of knowledge we are all born with. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Collective unconscious is part of our unconscious mind that are inherited by the species in general. These are shared thoughts and experiences that we are not aware of. Jung also believed that our psyche comprised of certain unlearned powerful symbols called &lt;strong&gt;archetypes&lt;/strong&gt;. The archetype has no form of its own, but it acts as an “&lt;em&gt;organising principle&lt;/em&gt;“ on the things we see or do. Some major archetypes are&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;persona - the mask&lt;/li&gt;
+&lt;li&gt;shadow - the hidden darkness&lt;/li&gt;
+&lt;li&gt;anima/animus - the male and female counterparts&lt;/li&gt;
+&lt;li&gt;self - the whole&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To further explain this, let’s review the friends once again. The personalities of these friends are written to demonstrate different part of psyche and the conflicts between each other. Their portrayal of certain version of human perception of oneself makes each character relatable for a large and unique audience. Each character in the show loosely represents one of the major elements of our psyche. Making them relatable to the species as a whole&lt;/p&gt;
+&lt;h2 id=&quot;phoebe-buffay&quot;&gt;Phoebe Buffay&lt;/h2&gt;
+&lt;p&gt;Phoebe is seen as the weird and random character. She is the most unpredictable and surprises often with a hidden talent. Similar to the &lt;strong&gt;personal unconscious&lt;/strong&gt;, she is known for often remembering or knowing things which were forgotten. She comes with a dark past, but the memories seem to not have any traumatic effect. Most of storyline is based on her temporary forgotten talents and skills no one knew she had. In more than one instances she also knew ‘reality’ [&lt;em&gt;truth about London, worst thanksgiving&lt;/em&gt;] of events never discussed. As a masseuse and a guitarist, she too has a client-centric job and has most interaction with the real world. She is confident, extrovert and has a strong yet random personality.
+&lt;img src=&quot;/articles/friends-whoami/phoebe.gif&quot; alt=&quot;Friends TV Characters Phoebe as personal unconscious&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;joey-and-rachel&quot;&gt;Joey and Rachel&lt;/h2&gt;
+&lt;p&gt; &lt;strong&gt;Persona&lt;/strong&gt; is an element of the psyche which arises for reasons of adaptation or personal convenience. It can be best described as a mask that people wear to present themselves in public or social situations. Joey is character that borderlines unrealism yet manages to be liked. In fact he is shown as an actor, who literally pretends to be others for a living.
+Similarly to Joey, Rachel represents &lt;strong&gt;persona&lt;/strong&gt;. She has a client-serving job catering to needs of people starting from coffee but later in fashion. She is charming, presentable manipulative and get what she wants.
+Let’s see some of their personality traits:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;They barely work. in the first half, they are shown to have minimal paying jobs yet living off people in bigger apartments. &lt;/li&gt;
+&lt;li&gt;They live life without responsibilities and barely any consequence of their actions. &lt;/li&gt;
+&lt;li&gt;They eats all the time without working out while maintaining his body&lt;/li&gt;
+&lt;li&gt;They are smooth and always lucky with the opposite sex without much effort&lt;/li&gt;
+&lt;li&gt;They are strong, good looking and attractive&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Throughout the series, Joey doesn’t actually do anything wrong or shameful. the worst crime he committed is lying on his resume or throwing the woman’s prosthetic leg in fire. Both incidents having no serious consequences.
+&lt;img src=&quot;/articles/friends-whoami/joey.gif&quot; alt=&quot;Friends TV Characters - joey as persona&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;ross-geller&quot;&gt;Ross Geller&lt;/h2&gt;
+&lt;p&gt;Gellers, on the other hand, represent &lt;strong&gt;shadow&lt;/strong&gt;. Shadow is the dark side of our unconscious consisting of repressed ideas, weaknesses, desires, instincts, and shortcomings. Ross, like the shadow, represents how a person might behave in real situations but are afraid to admit. Shadow is the dark side of the personality. it is instinctive, irrational and aggressive. Instead of accepting us for the negative in us, shadow tends to project these on to the others.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Everything that irritates us about others can lead us to an understanding of ourselves. &lt;br&gt;~ Carl Jung&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You hate in others what you hate about yourself. Ross Geller explores all those aspects of human behaviour one might think or have done and are embarrassed to admit. This leads to Ross being disliked character in friends amongst people secretly relating to his worst moments.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;He falls in love with the popular girl and silently struggles with it for 10 years&lt;/li&gt;
+&lt;li&gt;He is insecure and jealous. He behaves irrationally sometimes and known to let his emotions get the best of him.&lt;/li&gt;
+&lt;li&gt;He says the wrong name at his own wedding.&lt;/li&gt;
+&lt;li&gt;He has compulsive need to correct people,  or talk down to them. Finds it hard to accept mistakes. He is a professor who dates a student. &lt;/li&gt;
+&lt;li&gt;He gets touchy about what others think of him. He even arranged his own funeral.&lt;/li&gt;
+&lt;li&gt;He judges the women he is dating. Projects his insecurities about cheating on to them.
+He is the character experienced marriage, divorce, tenure and mugging. He is parents’ favourite and is bullied by his friends.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Similar to Ross, Monica, to some extent, represents the worst in people. She is competitive, loud , bossy, compulsive, controlling and vengeful. They are both shown to 
+Shadow is necessary part of the psyche to avoid the person to give in to the persona and solely be motivated by others’ perception. Qualities we often cannot stand in others, we have in ourselves and wish to not see.
+&lt;img src=&quot;/articles/friends-whoami/ross.gif&quot; alt=&quot;Friends TV Characters -ross as shadow&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;chandler&quot;&gt;Chandler&lt;/h2&gt;
+&lt;p&gt;Chandler corresponds to &lt;strong&gt;Anima/Animus&lt;/strong&gt; which are the contra sexual archetypes. Our society has different expectation regarding male and female and these often coincide with the sex. Jung, like others, believed that infants are born with no particular gender, in the social sense. Confiding ourselves to societal expectation of sex-based gender roles is only half the growth of our potential. &lt;/p&gt;
+&lt;p&gt;Chandler in all corresponds to the female aspect present in the collective unconscious of men(anima) and the male aspect present in the collective unconscious of women(animus). &lt;/p&gt;
+&lt;p&gt;He, on multiple occasions, have shown as a women or enjoying feminine side.Given the sexist nature of the show, he is also been ridiculed for showing his feminine side. The women he dates, animus, display  masculine traits and are shown to be dominating, competitive, argumentative, promiscuous among others.
+&lt;img src=&quot;/articles/friends-whoami/chandler.jpeg&quot; alt=&quot;Friends TV Characters - chandler as animus&quot;&gt;
+As the show proceeds, Chandler shows the most growth. He starts off as awkward, kiddish, lazy person. He is unhappy professionally and on multiple occasions shown to be shallow and insensitive. As the series wraps up, he becomes more comfortable with his entire self. He enters a long term relationship and fathers children. He finds his professional happiness as well as personal. He also repairs his interpersonal relationships with his mother and comes to terms with his father’s sexuality.&lt;/p&gt;
+&lt;h2 id=&quot;rachel-phoebe-and-monica&quot;&gt;Rachel Phoebe and Monica&lt;/h2&gt;
+&lt;p&gt;Rachel and Monica together make up for all the feminine archetypes. Rachel starts off as an innocent &lt;strong&gt;maiden&lt;/strong&gt; damsel in distress who needs to be rescued at every step. She turns to Monica, a nurturing, caring &lt;strong&gt;mother&lt;/strong&gt; who provides her with home . As the show progresses, both play &lt;strong&gt;lovers&lt;/strong&gt; from time to time. Rachel embodies the innermost desires of fearlessness, passion independence as the &lt;strong&gt;huntress&lt;/strong&gt; and Monica becomes a head chef signifying the duty, leadership of the &lt;strong&gt;queen&lt;/strong&gt;. Phoebe is the &lt;strong&gt;mystic&lt;/strong&gt; woman.&lt;/p&gt;
+&lt;p&gt;Although different from each other, each woman is unique in her femininity, possessing different temperaments, ambitions, gifts, and shortcomings. However, these archetypes helps us identify with their needs, desires and ambitions.
+&lt;img src=&quot;/articles/friends-whoami/feminine.gif&quot; alt=&quot;Friends TV Characters - feminine archetypes&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;monica-geller&quot;&gt;Monica Geller&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Self&lt;/em&gt; is the deepest archetype that refers to the process of wholeness. Just as the sun is in the centre of the solar system, self makes the centre of the psyche. Monica Geller is the centre of the friends’ universe. She knew each character personally. Apart form the coffee shop, it is her big apartment, where all these unconscious and the conscious come to gather and communicate. She is the hostess and a head chef at her restaurant. She is obsessive competitive and a winner. She is natural leader.
+&lt;img src=&quot;/articles/friends-whoami/monica.gif&quot; alt=&quot;Friends TV Characters - monica as self&quot;&gt;
+According to Jung, these collective unconscious reside in everyone collectively as a society. We can suddenly recognise certain symbols or relations without having any prior knowledge about them. they are part of our collective unconscious. They communicate with the conscious mind via dreams and complexes. The show begins with the characters discussing their dreams and have often done later. &lt;/p&gt;
+&lt;p&gt;Complexes are feelings where behaviour arises out of control. Some examples are &lt;em&gt;inferiority complex&lt;/em&gt; and &lt;em&gt;Oedipus complex&lt;/em&gt; which are addressed in the show. 
+&lt;img src=&quot;/articles/friends-whoami/odepeos.jpeg&quot; alt=&quot;Friends TV Characters - monica as self&quot;&gt;
+In conclusion, all characters represent part of our collective unconscious mind and makes them relatable to all at the same making them such a success. Together they form a complete human.&lt;/p&gt;
+</description></item><item><title>Simple Todo in plain Javascript</title><link>https://blog.apoorvasrinivasan.com/articles/todo/</link><pubDate>Thu, 25 Mar 2021 20:10:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/todo/</guid><author></author><description>&lt;h2 id=&quot;to-do-list&quot;&gt;TO-DO list&lt;/h2&gt;
+&lt;p&gt;Todo list are the first step to coding after &lt;code&gt;hello world&lt;/code&gt;. TO-do lists are basically lists that are created by users  mentioning the tasks they need to get done. They can assign priority or category to them. As they keep doing the tasks, user have an option of marking it as done so as to show their progress.&lt;/p&gt;
+&lt;p&gt;In this tutorial we are going to make a very simple todo list using basic vanilla JS. To start, create and save an &lt;code&gt;html&lt;/code&gt; file. In order to do that, you can refer my previous tutorial &lt;a href=&quot;https://blog.apoorvasrinivasan.com/articles/javascript/&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;html&quot;&gt;HTML&lt;/h3&gt;
+&lt;p&gt;To begin with , let’s write the basic html code for entering the list.&lt;/p&gt;
+&lt;input type='text' class='todo' placeholder = 'enter an item'&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;input type=&amp;#39;text&amp;#39; class=&amp;#39;todo&amp;#39; placeholder = &amp;#39;enter an item&amp;#39;&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To add text before it, you can add a &lt;code&gt;label&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;label&amp;gt; Enter an item &amp;lt;input type=&amp;#39;text&amp;#39; class=&amp;#39;todo&amp;#39;&amp;gt; &amp;lt;label&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;label&gt; Enter an item &lt;input type='text' class='todo'&gt; &lt;label&gt;&lt;/p&gt;
+&lt;p&gt;Next, we are going to display the do to list. For that, we create a &lt;code&gt;ul&lt;/code&gt; element and give it a nice id. Initially, it will be blank list and will not effect the way your document looks like.&lt;/p&gt;
+&lt;ul id = 'TodoList'&gt;&lt;/ul&gt;
+
+
+
+&lt;h3 id=&quot;javascript&quot;&gt;JAVASCRIPT&lt;/h3&gt;
+&lt;p&gt;First functionality to add is to enter the input to the displayed list.  We need the javascript function to &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;add a list item to the &lt;code&gt;ul&lt;/code&gt; &lt;ul&gt;
+&lt;li&gt;access the ul&lt;/li&gt;
+&lt;li&gt;create a li element&lt;/li&gt;
+&lt;li&gt;set its status as &lt;strong&gt;tbd&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;the list item should contain the text entered by the user&lt;ul&gt;
+&lt;li&gt;set the value of li as the input box&lt;/li&gt;
+&lt;li&gt;clear the input box&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;this should happen as soon as the user finishes typing.&lt;ul&gt;
+&lt;li&gt;trigger the function after the input box value changes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lets write the function&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var addTodo = function (el) {
+  // get the value of the input
+  var todoValue = el.value;
+  el.value = &amp;#39;&amp;#39;;
+
+  // get the UL element
+  var ul = document.getElementById(&amp;quot;TodoList&amp;quot;);
+
+  // create a list item
+  var li = document.createElement(&amp;quot;li&amp;quot;);
+    li.setAttribute(&amp;#39;data-status&amp;#39;,&amp;#39;tbd&amp;#39;);
+  li.innerHTML = todoValue;
+
+  // append to the ul
+  ul.appendChild(li);
+};&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now we need to set to execute the function only when the user finishes typing. for that, we add the event handler, &lt;code&gt;onchange&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;input type=&amp;#39;text&amp;#39; class=&amp;#39;todo&amp;#39; onchange=&amp;#39;addTodo(this)&amp;#39;/&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next step is to add checkboxes to the list items so that user can mark any item as done.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  // add the checkbox
+  check = document.createElement(&amp;quot;check&amp;quot;);
+  check.type=&amp;#39;checkbox&amp;#39;;
+  li.appendChild(check);&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;To change the status of the task&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;To be able to change the status of the task, the function needs to &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;mark the task as done&lt;ul&gt;
+&lt;li&gt;access the checkbox that is clicked&lt;/li&gt;
+&lt;li&gt;access the list item&lt;/li&gt;
+&lt;li&gt;change the data attribute from &lt;code&gt;tbd&lt;/code&gt; to &lt;code&gt;done&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;add necessary CSS to visually represent the same. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;trigger when the checkbox is checked&lt;ul&gt;
+&lt;li&gt;tell javascript to listen to any event that changes the condition of the checkbox.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;undo the changes when the checkbox is unchecked.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For this, first we add a &lt;code&gt;event listener&lt;/code&gt; to the checkbox we just created as&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;input.addEventListener(&amp;#39;change&amp;#39;,changeStatus);&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Change is the event action, and &lt;code&gt;changeStatus&lt;/code&gt; is the function to be executed.&lt;/p&gt;
+&lt;p&gt;Lets write this new function that changes the status of the &lt;code&gt;li&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var changeStatus = function(){
+
+   // get the list item that triggered this event.
+   el = event.target;
+   var checked = el.checked;
+
+  // get the parent li element
+  var li = el.parentElement;
+  // if the checkbox is checked
+   if(checked)
+     li.setAttribute(&amp;#39;data-status&amp;#39;,&amp;#39;done&amp;#39;);
+  else
+    li.setAttribute(&amp;#39;data-status&amp;#39;,&amp;#39;tbd&amp;#39;);
+
+ }
+
+ // CSS
+ #TodoList li[data-status=&amp;quot;done&amp;quot;] {
+    color: grey;
+    font-style: italic;
+    text-decoration: line-through;
+}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This was a very simple basic TODO list program in javascript. You can find the code &lt;a href=&quot;https://github.com/apoorvasrinivasan/staticblogSite/blob/master/todo/js/index.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description></item><item><title>10 things to carry on an international trip</title><link>https://blog.apoorvasrinivasan.com/articles/international/</link><pubDate>Sun, 21 Mar 2021 23:12:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/international/</guid><author></author><description>&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip.gif&quot; alt=&quot;10 things to pack in international trip - packing&quot;&gt;&lt;/p&gt;
+&lt;p&gt;First international experience is something everyone rememebers or hopes to achive in ones’ life time. International travelling can also cause a lot of anxiety especially amongst first time travellers. Seasoned travellers also often get surprised by situations that differs in various countries or airlines. Here is a quick checklist to consider to make your travel experience easier and safe.&lt;/p&gt;
+&lt;h2 id=&quot;1-passport&quot;&gt;1. Passport&lt;/h2&gt;
+&lt;p&gt;Needless to say, a passport is the &lt;strong&gt;most&lt;/strong&gt; important document while travelling. without it, it is impossible for anyone to get back home. It is advisable if you have a separate wallet to keep your passport for the following reasons.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;During the flight journey, passport needs to be shown multiple times. You need to keep accessing it and keeping it handy is easy.&lt;/li&gt;
+&lt;li&gt;Keeping the passport away from cash and other documents is also effective. It keeps both passport and cash safe in case of any mishap.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ALong with original, do carry softcopies of passport and other identification with you. This way, you don’t have to carry around your passport unless absolutely necessary and risk theft.
+Remember, in case of a robery, you would be able to leave the country safely with &lt;em&gt;only&lt;/em&gt; the passport. However, in case the passport is lost or stolen, you need to report at the embassy and might take days to weeks to be able to get a new one. &lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-passport.gif&quot; alt=&quot;10 things to pack in international trip - passport&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;2-communication&quot;&gt;2. Communication&lt;/h2&gt;
+&lt;p&gt;Communication is the key to happiness. A trip isn’t a successful trip unless you get to post stories and show off. First thing to do reaching the airport is to get yourself a SIM card. Whether you are alone or in a large group, a SIM card with internet money is a neccesity. This helps in &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;activating internet based services like google maps, google translate etc&lt;/li&gt;
+&lt;li&gt;Keeping in touch with people at home&lt;/li&gt;
+&lt;li&gt;Keeping in touch with people you are travelling with and hope to not get lost.&lt;/li&gt;
+&lt;li&gt;Keeping in touch with the locals like hotels, tour guides cabs etc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;yes, international roaming is a good option too but turns out to be expensive in most cases. Also, not many locals would prefer to make an international call to your number. A sim card also makes a good souvenir&lt;/p&gt;
+&lt;p&gt;Most airports have sim card or internet devices that sell tourists quick and easy plan.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Japan SIM card work on CDMA technology and SIM cards won’t work on your phone. In cases like this they have pocket wifi routers that you rent from the airport and return during your flight back. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-communication.gif&quot; alt=&quot;10 things to pack in international trip - communication&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;3-money&quot;&gt;3. Money&lt;/h2&gt;
+&lt;p&gt;Let’s be honest, money is a very cool thing to have.  How you manage your money depends on country to country. Some countries are purely digital and electronic where as certain countries still work on cash. It is important to carry certain amount of cash in foreign currency.&lt;/p&gt;
+&lt;p&gt;Cost of living varies from country to country and so do the value of each denomination. This means that what &lt;code&gt;10 bill&lt;/code&gt; buys you might be less or more of what &lt;code&gt;10 bill&lt;/code&gt; of xyz currency.&lt;/p&gt;
+&lt;p&gt;Credit cards by default have &lt;em&gt;international spending&lt;/em&gt; disabled. Before flying ensure to enable the option on all your cards to be able to make an withdrawal.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Bhutan and Nepal accept MasterCard only. Visa cards are not accepted in the ATM’s&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-money.gif&quot; alt=&quot;10 things to pack in international trip - money&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;4-food&quot;&gt;4. Food&lt;/h2&gt;
+&lt;p&gt;Taste in food varies from person to person and region to region. You need to be mentally prepared that food you would get might not be the kind you are used to or to your liking. Items as simple as tea or coffee have complete different taste. In fact, if possible, do carry some backup with you. These includes ready-to-eat packets or snacking items. If lack of morning dose of caffeine makes you cranky, definitely carry tea/coffee bags with you.&lt;/p&gt;
+&lt;p&gt;IF the country is in a different timezone, your body will take longer to adjust to the new timings. You might start feeling hungry at odd timings. Sometimes the iternary is so packed that you don’t get time to eat while roaming around. Having backup food is handy. If you dont think you can carry from home, do pack something from the hotel before leaving. &lt;/p&gt;
+&lt;p&gt;Food ettiquetes vary from place to place. Some countries expect tipping while others take it as an insult. Some serve good quantity of food, while others are single serve. You need to ask around and respect the culture.&lt;/p&gt;
+&lt;h3 id=&quot;if-you-have-a-certain-dietary-restriction-like-vegan-vegetarian-halal-etc&quot;&gt;If you have a certain dietary restriction , like &lt;em&gt;vegan&lt;/em&gt; , &lt;em&gt;vegetarian&lt;/em&gt; ,&lt;em&gt;halal&lt;/em&gt; etc&lt;/h3&gt;
+&lt;p&gt;it is very important that you find restaurants in your area. While booking the flight, do not forget to mention the food category you wish to be served.  Flights tend to serve the special food before they serve every one else. If you wish to be served early you can change the food category while booking the ticket.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the green and red dot on food items is very specific to India. Restaurants and packed food outside India do not have that distinction. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Take nothing for granted&lt;/strong&gt;
+Ask the ingredients before ordering. Simple items like icecream and french fries can also contain egg/meat. &lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-food.gif&quot; alt=&quot;10 things to pack in international trip - food&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;5-apps&quot;&gt;5. Apps&lt;/h2&gt;
+&lt;p&gt;Here is a list of essential apps to install in your smart phone &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Google maps&lt;/li&gt;
+&lt;li&gt;Google Translate&lt;/li&gt;
+&lt;li&gt;Video calling apps - facetime, telegram,  whatsapp etc&lt;/li&gt;
+&lt;li&gt;Uber&lt;/li&gt;
+&lt;li&gt;Metro/subway/train apps&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here are some apps that help to find restaurants &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Happy cow &lt;/li&gt;
+&lt;li&gt;Tripadvisor&lt;/li&gt;
+&lt;li&gt;Zomato&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;6-breather-in-the-itenary&quot;&gt;6. Breather in the itenary&lt;/h2&gt;
+&lt;p&gt;It is very natural wanting to fit everything in a few days holiday. In doing so we often tend to jam pack our schedule. This sometimes results in over exertion and tiring series of days and the holiday seems more stressful than the regular life you came here to get a break from.
+Tired body will start losing interest soon and you would not enjoy your vacation. &lt;/p&gt;
+&lt;p&gt;While planning your trip, it is very important to let some lone time or gaps in the itinerary.  This allows&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;time for your body to relax and recharge every day. &lt;/li&gt;
+&lt;li&gt;to take time to enjoy the scenery and learn about the place you are visiting.&lt;/li&gt;
+&lt;li&gt;mind to relax and stress free &lt;/li&gt;
+&lt;li&gt;sudden plans like detour, shopping , photo sessions etc&lt;/li&gt;
+&lt;li&gt;Time to lose way or get stuck in traffic without panicking or missing out on * something. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;7-socker-converters&quot;&gt;7. Socker converters&lt;/h2&gt;
+&lt;p&gt;You NEED to carry enough power banks and cables that support all your electronic devices. additionally, you need to carry the international socket converter that has plug outlets for asian European and American sockets. This is most important equipment. Not all hotels have a generic sockets and without this device you may never be able to charge your phone during entire trip.
+&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-socket.jpg&quot; alt=&quot;10 things to pack in international trip - socket&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;cabin-bag-&quot;&gt;Cabin bag.&lt;/h2&gt;
+&lt;p&gt;While packing your cabin bag for the flight , here are few things you need to definitely pack&lt;/p&gt;
+&lt;h2 id=&quot;8-extra-clothing-and-other-essentials&quot;&gt;8. Extra clothing and other essentials&lt;/h2&gt;
+&lt;p&gt;Sometimes the journey requires long connecting flights and many transfers before you reach your hotel room. Extra pair of clothing comes in handy in case you would like to change.
+Is it also important to pack this extra pair in your cabin or hand baggage instead of check in luggage. Luggages are not accessible during long layovers. Sometimes in case of a mix up or error, luggages have known to not reach in the same flight. In that case, it is handy to have atlaest one extra pair of clothings and other important essentials packed in your hand baggage. &lt;/p&gt;
+&lt;h2 id=&quot;9-small-travel-sized-toiletries&quot;&gt;9. Small travel sized toiletries&lt;/h2&gt;
+&lt;p&gt;Pack light. Don’t pack heavy bottles and cream. You get small travel sized toiletries including soaps powder shampoo toothpaste etc. sometimes the flights and layovers are long and you may need to freshen up. Many airports do not allow bottles or liquids in flights. So do Carry mini sized essentials in flights.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-toilet.jpeg&quot; alt=&quot;10 things to pack in international trip - toilet&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;10-travel-pillow&quot;&gt;10. Travel pillow&lt;/h2&gt;
+&lt;p&gt;International flights are long and tiring. Travel pillow and eye mask give you the rest you need. Even though some international flights  used to give blankets pre corona times, it is also advisable to carry your own. It might feel bit of inconvenience but it is worth the effort. 
+Additionally, even though some flights may have in-flight entertainment, do download some movies  or books on your phone and carry a pair of earphones with you as well. This will help you pass time during layovers. 
+&lt;img src=&quot;/articles/international/10-things-to-pack-in-international-trip-pillow.gif&quot; alt=&quot;10 things to pack in international trip - pillow&quot;&gt;&lt;/p&gt;
+&lt;p&gt;This was a basic curated list on some of the things that makes traveling safe and easy. If I missed something, do mention in the comments section below.&lt;/p&gt;
+&lt;iframe width=&quot;480px&quot; style='max-width: 100%' height=&quot;250px&quot; src=&quot;https://www.youtube.com/embed/Zc9pcUCfMGk&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+</description></item><item><title>8 things to remember before planning vacation in snow</title><link>https://blog.apoorvasrinivasan.com/articles/Snow/</link><pubDate>Tue, 19 Feb 2019 23:12:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/Snow/</guid><author></author><description>&lt;p&gt;&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-romance.gif&quot; alt=&quot;8 things to remember in snow - romance&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Every person living in the heat has once thought of planning a vacation to see  and experience snow fall. December - Early March is the peak time for snow falls in various places. Here is a short list in things to remember before planning a vacation in the snow:&lt;/p&gt;
+&lt;h2 id=&quot;1-snowfall-is-just-rain&quot;&gt;1. Snowfall is just rain&lt;/h2&gt;
+&lt;p&gt;There is romance , beauty, purity in snowfall. But at the end of the day, snow fall is just rain. Snow falls when there is precipation on a cloudy day, under very low temperature. Which means, just as rains, snow fall is sudden and depending upon the cloud sky. There are trustable weather forecasts, but they are usually right for the week. Dont trust travel agents, or last year’s stats.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-cloud.gif&quot; alt=&quot;8 things to remember in snow - cloud&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;2-snow-is-not-wet&quot;&gt;2. Snow is not wet&lt;/h2&gt;
+&lt;p&gt;Snow, is soft gooey cold and frozen water. It is not wet. While walking on snow and enjoying the snow fall, you do not realise how wet you have become. When the snow melts, everything : - your clothes, bag, shoes etc becomes drenched.
+This also makes it very easy to play with the snow, without realising the frost bites it may cause you later on. 
+&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-fight.gif&quot; alt=&quot;8 things to remember in snow - fight&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;3-wear-contacts&quot;&gt;3. Wear contacts&lt;/h2&gt;
+&lt;p&gt;If you are a person with not-so-perfect vision, wear contact lenses rather than specs. As you walk around in that cold temperature falling short of oxygen, spectacles usually get foggy. They also get frosty easily if something falls and gets wet and are difficult to clean.
+&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-sight.gif&quot; alt=&quot;8 things to remember in snow - wear contacts&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;4-mind-your-head&quot;&gt;4. Mind your head&lt;/h2&gt;
+&lt;p&gt;Trees in snowy region are usually shaped in manner to shed off the accumulated snow. rooftops are also angular in structure to allow the snow to fall off. So, long after the snow fall, you need to mind your head while walking, as big rocks of snow can fall on your head any time.
+If the sky clears, then these would be dripping down as water.
+&lt;img src=&quot;https://blog.apoorvasrinivasan.com/articles/Snow/8-things-to-remember-in-snow-roof.gif&quot; alt=&quot;8 things to remember in snow - roof&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;5-transportation&quot;&gt;5. Transportation&lt;/h2&gt;
+&lt;p&gt;It is NOT EASY o find a commute during snow. Not all cars are equiped and can handle the wet slippery roads , especially in slopy or mountainous terrain. Depending upon the inches of snow in your region,  many places are at lockdown. 
+&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-cars.gif&quot; alt=&quot;8 things to remember in snow - cars&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;6-power&quot;&gt;6. Power&lt;/h2&gt;
+&lt;p&gt;Just as with any heavy rainfall, there is a high chance of power failure, tree falling, buildings collapsing and other side effects. Depending upon the area you are planning to visit, you need to be prepared. &lt;/p&gt;
+&lt;h2 id=&quot;7-snow-boots&quot;&gt;7. Snow boots&lt;/h2&gt;
+&lt;p&gt;You NEED to rent a pair of snow boots. Snow boots are thick and water proof. They protect your socks from being wet and make it easier for you to walk on ice. Without the snow boots, you feet, socks and shoes will get wet before you even noticing.
+&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-boots.gif&quot; alt=&quot;8 things to remember in snow - boots&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;8-keep-yourself-warm-&quot;&gt;8. Keep yourself warm.&lt;/h2&gt;
+&lt;p&gt;Needless to say it is going to be COLD. FREEZING COLD. And many tourist, especially who come from coast or pleasant areas don’t really realise what cold means and they find it very difficult to cope. So be prepared and do anything to keep yourself warm.
+&lt;img src=&quot;/articles/Snow/8-things-to-remember-in-snow-warmclothes.gif&quot; alt=&quot;8 things to remember in snow - warmclothes&quot;&gt;&lt;/p&gt;
+&lt;iframe width=&quot;480px&quot; style='max-width: 100%' height=&quot;250px&quot; src=&quot;https://www.youtube.com/embed/ZR0dByNatko&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+</description></item><item><title>Introduction to Javascript</title><link>https://blog.apoorvasrinivasan.com/articles/javascript/</link><pubDate>Sat, 05  Aug 2017 20:10:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/javascript/</guid><author></author><description>&lt;h2 id=&quot;new-to-web&quot;&gt;new to web&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;open file&lt;/li&gt;
+&lt;li&gt;save with .html extension&lt;/li&gt;
+&lt;li&gt;open the file from the browser&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is your first HTML page&lt;/p&gt;
+&lt;h3 id=&quot;what-is-javascript-&quot;&gt;What is JavaScript?&lt;/h3&gt;
+&lt;p&gt;JavaScript is a very powerful client-side scripting language. JavaScript is used mainly for enhancing the interaction of a user with the webpage. In other words, you can make your webpage more lively and interactive, with the help of JavaScript. JavaScript is also being used widely in game development and Mobile application development.&lt;/p&gt;
+&lt;p&gt;Javascript is used to increase user interaction to the website. It is used to change or present content based on user inputs. Some basic examples of such interaction include but not limited to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Showing or hiding content on demand&lt;/li&gt;
+&lt;li&gt;Menu &lt;/li&gt;
+&lt;li&gt;Drag and drop features&lt;/li&gt;
+&lt;li&gt;Form validation&lt;/li&gt;
+&lt;li&gt;fetching data based on input from users&lt;/li&gt;
+&lt;li&gt;animations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;how-to-start-with-javascript&quot;&gt;how to start with javascript&lt;/h3&gt;
+&lt;p&gt;Javascript is written inside &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag. Anything written inside the tag is executed. Script tag is inserted as
+&lt;code&gt;&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;br&gt;A script tag can be inserted inside &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; or just before closing the &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt; tag&lt;/p&gt;
+&lt;p&gt;The difference between the two is,:-&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the script in the &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; runs &lt;em&gt;before&lt;/em&gt; the DOM structure is constructed and the later is run after the DOM is constructed&lt;/li&gt;
+&lt;li&gt;the script in &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; is render blocking i.e. stops the page from loading and should be very light and minimal. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;!-- your html code --&amp;gt;
+  xc
+&amp;lt;/body&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;dialogue-boxes&quot;&gt;Dialogue boxes&lt;/h2&gt;
+&lt;p&gt;To check there are basic &lt;strong&gt;popup&lt;/strong&gt; boxes in-built in javascript that involves very basic user interaction. They involve little to no knowledge of web coding. They also require no installation. These dialogue boxes popup on the user screen and expecting an input. Call to these are &lt;code&gt;synchronous&lt;/code&gt; which mean, the program does not execute further until the input is received.&lt;/p&gt;
+&lt;h3 id=&quot;alert&quot;&gt;Alert&lt;/h3&gt;
+&lt;p&gt;Alert boxes, as the name suggest are used to send an alert signal to the users. The box contains a text message. User is required to click &lt;code&gt;ok&lt;/code&gt; to dismiss. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;alert(&amp;quot;&amp;quot;); 
+alert(&amp;quot;This is an alert box&amp;quot;); &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;button onclick='alert(&quot;This is an alert box&quot;)'&gt; Try now&lt;/button&gt;&lt;/p&gt;
+&lt;h3 id=&quot;confirm&quot;&gt;Confirm&lt;/h3&gt;
+&lt;p&gt;Confirm boxes are little more advanced than alerts. Like alerts, confirm boxes contain a text message . user now has an option to &lt;code&gt;ok&lt;/code&gt; or &lt;code&gt;cancel&lt;/code&gt; the message. Additionally, confirm also returns &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt; accordingly for further calculation&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var x = confirm(); 
+var x = confirm(&amp;quot;Do you confirm??&amp;quot;); &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;button id='f' onclick='this.nextElementSibling.textContent = confirm(&quot;Do you confirm??&quot;)'&gt; Try now&lt;/button&gt; &lt;spam&gt;&lt;/spam&gt;&lt;/p&gt;
+&lt;h3 id=&quot;prompt&quot;&gt;Prompt&lt;/h3&gt;
+&lt;p&gt;Prompt boxes are advanced. They take text input from the user and return the value. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var x =  prompt(); &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can add a customised message before receiving the input.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;var x =  prompt(&amp;quot;Please enter your name&amp;quot;); &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;button  onclick='this.nextElementSibling.textContent = prompt(&quot;Please enter your name&quot;)'&gt; Try now&lt;/button&gt; &lt;spam&gt;&lt;/spam&gt;&lt;/p&gt;
+&lt;p&gt;There are many options to interrupt the user with important messages about the application flow. There are native alert dialogs you can prompt using JavaScript or craft your own using CSS and HTML. Just make sure you don’t abuse the power to display messages to the user.&lt;/p&gt;
+</description></item><item><title>Why aren't you on whatsapp ?</title><link>https://blog.apoorvasrinivasan.com/articles/telegram/</link><pubDate>Sun, 30 Apr 2017 05:30:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/telegram/</guid><author></author><description>&lt;p&gt;Every time I tell anyone I have uninstalled WhatsApp, people wonder why. I type out a long list of features in reply. I am hence writing this to explain why i moved to Telegram.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;For those who dont know, Telegram is an instant messaging​ service. It allows two or more people to chat. WhatsApp undoubtedly was the first internet based chat service that added contacts from the user’s phone book. Prior to WhatsApp there were other instant messaging services like MSN, gTalk, yahoo chat, etc. but these all required additional users to be created and invited. WhatsApp was well received and became really popular. But, here is the reason why I left it.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;number sharing&lt;/strong&gt; : WhatsApp does not work without having to exchange your phone number with anyone you have to interact with. If you are a part of a large group for a trip or a project, then your number is visible to everyone part of that group.Gallery : WhatsApp creates a folder called WhatsApp images and videos and is part of the gallery. Any downloaded media is then gets amongst rest of your personal photos. It gets difficult to not only clean them later, your gallery also seems crowded. Anyone going through some album gets access to the junk downloaded by WhatsApp media . Of Course there is an option to not let media get downloaded but the thumbnail is quite blurred and you do end up clicking on it. Once the image is downloaded, you can delete it, but then it there is no option of re-downloading it EVER.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;multiple devices&lt;/strong&gt; : WhatsApp doesn’t work on multiple devices. One phone number is allowed exactly one WhatsApp account and one phone device. If you change your phone, and install WhatsApp on some other device, the previous app throws error.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;web.whatsapp&lt;/strong&gt; : Webwhatsapp is a feature to allow you to access their WhatsApp messenger from web browser. THEIR MESSENGER. Which means, the device should be up and running with active internet connection for the web to work.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Facebook Integration&lt;/strong&gt; : Since Facebook purchased WhatsApp, there were rumours user data being compromised and facebook using personal phone and contacts data to recommend friends on facebook. Although I don’t even have an FB account, this still seemed a little breach of privacy. This is also an problem since many of us maintaing two different set of friends and image over facebook and WhatsApp.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;why-i-love-telegram&quot;&gt;Why i love Telegram&lt;/h2&gt;
+&lt;p&gt;Lets start with how telegram covers up for these drawbacks.&lt;/p&gt;
+&lt;h3 id=&quot;number-sharing&quot;&gt;Number sharing&lt;/h3&gt;
+&lt;p&gt;Telegram works on an username basis. You can set your username. Anyone can chat with you by searching for you by your username. yes, this does allow random unknown people to chat, but responding to them is up to you, and you can always block the annoying ones.You can be a part of as many groups , only people in your contacts will be able to see your phone number. People do not need your number to add you to groups.&lt;/p&gt;
+&lt;h3 id=&quot;gallery&quot;&gt;Gallery&lt;/h3&gt;
+&lt;p&gt;Telegram does not download media in the gallery. You can select the photos and click on &lt;code&gt;save to device&lt;/code&gt; and only those would appear in the gallery. Rest of the media is saved in &lt;code&gt;/storage/telegram&lt;/code&gt; and can be cleaned whenever phone memory gets full.media never gets deleted : If you click on a media and delete it , you can click on it again and it will get downloaded again. The shared media tab stores the history of shared media amongst the people or the group. Deleted media would have a blurred thumbnail and would get downloaded again from the source on clicking.&lt;/p&gt;
+&lt;h3 id=&quot;devices&quot;&gt;Devices&lt;/h3&gt;
+&lt;p&gt;Telegram app can be installed in as many devices as you like. The details of active sessions can be viewed from the settings menu.Telegram also offers desktop apps and web telegram. Every session runs independent of each other and does not require the phone device to be even switched on. It is very convenient to access and chat while doing other work.It will send a pass code for the initial set up which can be received over SMS or any other telegram instance.&lt;/p&gt;
+&lt;h3 id=&quot;other-exciting-features&quot;&gt;Other exciting features&lt;/h3&gt;
+&lt;p&gt;Apart from the above, telegram has really exciting features that glues people to it.&lt;/p&gt;
+&lt;h3 id=&quot;stickers&quot;&gt;Stickers&lt;/h3&gt;
+&lt;p&gt;Chatting is all about conveying emotions and one emoji can have multiple interpretations. Telegram allows stickers and sticker packs to display exactly the feeling you wish to convey. Any one can create their own sticker packs with their custom images or choose from a variety of packs&lt;/p&gt;
+&lt;h3 id=&quot;chatting&quot;&gt;Chatting&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Deleting chats&lt;/strong&gt; This is my personal favourite feature of telegram . It allows the sent and delivered messages to be deleted. Even in case of groups, the sent message can be deleted for all the members of the group without a trace. Read messages would also get deleted.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;editing&lt;/strong&gt; Sent messages can be edited. any spelling mistake can be corrected easily without having to send another message with the corrected text.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;code highlight&lt;/strong&gt; just like markdown, bold ( ** ) , italics (__) and code (“) works on telegram chats.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Draft&lt;/strong&gt; Telegram saves unsent messages as drafts. This draft is synced with all active telegram sessions.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;auto preview&lt;/strong&gt; It previews any link sent. These links can be later accessed under the shared links tab.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;dp-editing&quot;&gt;DP Editing&lt;/h3&gt;
+&lt;p&gt;Telegram allows you to completely edit your profile picture before posting. This includes cropping, brightness, contrast etc. It also saves the history of all the profile pictures that you have posted.&lt;/p&gt;
+&lt;h3 id=&quot;secret-chats&quot;&gt;Secret Chats&lt;/h3&gt;
+&lt;p&gt;it is for app only timer can be set and messages in a secret chat will get destructed from both ends.&lt;/p&gt;
+&lt;h3 id=&quot;app-lock&quot;&gt;app lock&lt;/h3&gt;
+&lt;p&gt;Telegram apps can have an extra layer of security pass code.&lt;/p&gt;
+&lt;h3 id=&quot;bots&quot;&gt;BOTS&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;gifs bot&lt;/strong&gt; 
+like stickers , telegram also has gif bot . Just type &lt;code&gt;@gif &amp;lt;query&amp;gt;&lt;/code&gt; and you will get a list of amazing funny gifs to share.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inline Games&lt;/strong&gt; 
+Allows you to play games like tic tac toe and rock paper scissors with your friends. Just type &lt;code&gt;@inlinegamesbot&lt;/code&gt; and choose a game&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Open source&lt;/strong&gt;
+Telegram has bot APIs which allows users to code and share their own bots like github bot, game bot, gif bot etc. You can add any game bot as a member of any group and start playing with your friends!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;but-no-one-is-here&quot;&gt;but no one is here&lt;/h2&gt;
+&lt;p&gt;The one response I get when I say all these to people, it that “not all people are there”. I hope this helps your friends to migrate as well :)&lt;/p&gt;
+</description></item><item><title>Pre exam outburst</title><link>https://blog.apoorvasrinivasan.com/articles/uml/</link><pubDate>Fri, 10 Sep 2010 05:30:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/uml/</guid><author></author><description>&lt;p&gt;Its been a month&lt;br&gt;and it seems like a year&lt;br&gt;there is a limit to what&lt;br&gt;the students can bear :@  &lt;/p&gt;
+&lt;p&gt;am getting bored&lt;br&gt;and in no mood to study :&lt;br&gt;and my head is spinning&lt;br&gt;away like an eddy:o  &lt;/p&gt;
+&lt;p&gt;the set of e-books,&lt;br&gt;together, they dawn&lt;br&gt;the classes terrorize&lt;br&gt;and the &lt;code&gt;obzects&lt;/code&gt; haunt x-(  &lt;/p&gt;
+&lt;p&gt;Not a word further can&lt;br&gt;now go into my head&lt;br&gt;this subject has successfully&lt;br&gt;turned my processors dead.. /)  &lt;/p&gt;
+&lt;p&gt;this weird stuff&lt;br&gt;irritating to the core&lt;br&gt;and I say to myself,&lt;br&gt;“WHAT  MORE..!!!” B)  &lt;/p&gt;
+&lt;p&gt;booch n waghmare&lt;br&gt;have different views&lt;br&gt;the  use-cases diagrams&lt;br&gt;are actually of no use :(  &lt;/p&gt;
+&lt;p&gt;the Question is :&lt;br&gt;what class avg would be??&lt;br&gt;just 2 more days and&lt;br&gt;we will be free..!!!!!  &lt;/p&gt;
+</description></item><item><title>Running Away</title><link>https://blog.apoorvasrinivasan.com/articles/running_away/</link><pubDate>Sat, 22 May 2010 16:35:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/running_away/</guid><author></author><description>&lt;p&gt;Running away from boredom… running away from monotony&lt;br&gt;Running away in search of an adventurous journey&lt;br&gt;Running away from alloo tikki, gol gappes n chat&lt;br&gt;to water the mouth with vada pao and lassan chutney…&lt;br&gt;Running away from glass and canvas&lt;br&gt;to the endeavor the art of warli&lt;br&gt;to undo the change this city has brought me to&lt;br&gt;Sometimes running away is all you can do……….:o :o  &lt;/p&gt;
+&lt;p&gt;Running away from mark sheets, that gave no gain&lt;br&gt;Running away from the place whose memories remain&lt;br&gt;Running away from the bitch who ripped our soul apart&lt;br&gt;dilapidated our soul n made our life hap-hazard&lt;br&gt;I wish I could kill her without leaving a clue…&lt;br&gt;but running away is all I can do..:P:D;)  &lt;/p&gt;
+&lt;p&gt;MY parents who have protected me for years&lt;br&gt;gave me all the happiness n wiped all my tears…&lt;br&gt;I’ll miss my bro… my..mom.. my..dad..&lt;br&gt;I know you’ll miss me too…, oh! am glad!&lt;br&gt;there’ll be noone to scold.. no one to argue..&lt;br&gt;but running away is all that I can do… :(:(  &lt;/p&gt;
+&lt;p&gt;not to forget those who were by my side&lt;br&gt;the craazziest people who fight, help n guide&lt;br&gt;we “discuss” matters for hrs n yet can’t decide&lt;br&gt;life without them is a roller coaster ride…:D&lt;br&gt;am leaving open wounds that might not heal&lt;br&gt;Running away from u guys was never a fair deal.. :(  &lt;/p&gt;
+&lt;p&gt;I remember the days… when I could see 
+the spark in your eyes while you look at me&lt;br&gt;your innocent smile in my presence&lt;br&gt;and your hair sticking out like medusa’s serpents&lt;br&gt;your unwanted high attitude and your low iq&lt;br&gt;getting away from you is most sensible thing to do.. :P :P  &lt;/p&gt;
+&lt;p&gt;AM taking with me the memories. :)&lt;br&gt;am taking with me the experience.:)&lt;br&gt;what all this city has given me&lt;br&gt;Cannot be expressed in one sentence&lt;br&gt;I am sure I’ll write a miss you poem soon&lt;br&gt;But for now running away is all I can do……  &lt;/p&gt;
+</description></item><item><title>I'm Waiting</title><link>https://blog.apoorvasrinivasan.com/articles/waiting/</link><pubDate>Sat, 22 May 2010 16:35:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/waiting/</guid><author></author><description>&lt;p&gt;I’m still waiting&lt;br&gt;For that call&lt;br&gt;One that’ll probably&lt;br&gt;Change it all&lt;/p&gt;
+&lt;p&gt;I’m still waiting&lt;br&gt;For that rose&lt;br&gt;Filled with love&lt;br&gt;Or a little prose&lt;/p&gt;
+&lt;p&gt;I’m still waiting&lt;br&gt;to hear that line&lt;br&gt;that will perhaps&lt;br&gt;make u mine&lt;/p&gt;
+&lt;p&gt;I’m still waiting&lt;br&gt;For the invite&lt;br&gt;If I’m ready to walk&lt;br&gt;With you in the moon-light&lt;/p&gt;
+&lt;p&gt;I’m still waiting&lt;br&gt;to be missed&lt;br&gt;or to be noticed&lt;br&gt;that I exist&lt;/p&gt;
+&lt;p&gt;I’m still waiting&lt;br&gt;for nothing more&lt;br&gt;but to make things&lt;br&gt;same as before&lt;/p&gt;
+&lt;p&gt;I’ve been sitting here&lt;br&gt;Waiting quietly&lt;br&gt;Waiting for YOU&lt;br&gt;Waiting for you to notice me….&lt;/p&gt;
+</description></item><item><title>30 idiots.. 1 class...and many more f*** ups</title><link>https://blog.apoorvasrinivasan.com/articles/30-idiots/</link><pubDate>Mon, 22 Feb 2010 16:35:00 +0630</pubDate><guid isPermaLink="true">https://blog.apoorvasrinivasan.com/articles/30-idiots/</guid><author></author><description>&lt;p&gt;3 years ago I thought,&lt;br&gt;life was just a continuous function.&lt;br&gt;Until I found a &lt;code&gt;goto&lt;/code&gt; statement&lt;br&gt;and landed at the Rajguru junction.  &lt;/p&gt;
+&lt;p&gt;The call was perhaps required&lt;br&gt;to &lt;code&gt;blendTrans&lt;/code&gt; many changes.&lt;br&gt;I was once a boolean variable,&lt;br&gt;now I am array of different ranges.  &lt;/p&gt;
+&lt;p&gt;I am not a poet and  I don’t claim to be.&lt;br&gt;It is just a 4KB tribute to u from me.&lt;br&gt;It has no rhyming scheme or poetic essence&lt;br&gt;and the Grammar used is purely &lt;code&gt;Context Free&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;But I hope you’ll still treasure it&lt;br&gt;somewhere in your vector subspace&lt;br&gt;and re-live the &lt;code&gt;Moments Generated&lt;/code&gt;
+in this blood sucking place.  &lt;/p&gt;
+&lt;p&gt;Wonder what attributes our classes contain?!?!&lt;br&gt;confused students, teachers insane:&lt;br&gt;thinking throughout the semester,&lt;br&gt;“WILL I EVER USE THIS CRAP AGAIN????”  &lt;/p&gt;
+&lt;p&gt;Photostats, assignments, songs and messages&lt;br&gt;were always in a &lt;code&gt;deadlock&lt;/code&gt; 
+spent classes yawing, eating&lt;br&gt;and looking the  &lt;code&gt;Big O&amp;#39;&lt;/code&gt;  clock  &lt;/p&gt;
+&lt;p&gt;Tolerating all our &lt;code&gt;Gloria Mundi&lt;/code&gt;&lt;br&gt;just for an attendance score&lt;br&gt;Sorry ma’am, but STATS classes&lt;br&gt;were seriously a BORE  &lt;/p&gt;
+&lt;p&gt;During test, together we sat&lt;br&gt;without any shame…&lt;br&gt;coz conventionally, the ones&lt;br&gt;along the row… win the &lt;code&gt;Game&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;Computer Lab Down is place where&lt;br&gt;smuggled in pd,food and belongings..&lt;br&gt;&amp;amp; we were religiously taught how to&lt;br&gt;correct the errors but ignore the warnings!!  &lt;/p&gt;
+&lt;p&gt;Normalizing our broken chairs.&lt;br&gt;Undue work piled up in &lt;code&gt;cache&lt;/code&gt;.&lt;br&gt;Try to enter in the 11th hr&lt;br&gt;Ohh!!..u r turned out…. &lt;code&gt;$$-bash&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;We are simply overloaded and overridden&lt;br&gt;with tests n assignments but no hols are given&lt;br&gt;and still the teachers fail to understand&lt;br&gt;why our marks aren’t so grand  &lt;/p&gt;
+&lt;p&gt;These 6 sems, a lot they taught:-&lt;br&gt;Strengthen the friendship after huge fight fought&lt;br&gt;How to smile even if you flunk&lt;br&gt;and the pleasure of coming on a MASS BUNK  &lt;/p&gt;
+&lt;p&gt;Did all our sharing and caring&lt;br&gt;with limited print out sheets&lt;br&gt;and tuned our &lt;code&gt;TIME_WAIT&lt;/code&gt; states&lt;br&gt;with the amazing dhol beats  &lt;/p&gt;
+&lt;p&gt;Our diverse talents has surely made our college proud&lt;br&gt;be it studying hard or hardly or dancing along with the crowd&lt;br&gt;Every aspect of our talent has enthusiastically been presented&lt;br&gt;No matter how much, CS has been neglected…  &lt;/p&gt;
+&lt;p&gt;Ms Fresher, Ms Tapori n Spark of the Day..&lt;br&gt;certificates too have a huge collection&lt;br&gt;and helping each other on exam eve&lt;br&gt;without any &lt;code&gt;if-else&lt;/code&gt; condition  &lt;/p&gt;
+&lt;p&gt;Together all of us have taken&lt;br&gt;computers to a new Branch.&lt;br&gt;This what exactly is called&lt;br&gt;a perfect &lt;code&gt;Tech Mélange&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;Now the clocks have ticked,&lt;br&gt;and it is time for us to part&lt;br&gt;I bid u all farewell&lt;br&gt;with a heavy heart  &lt;/p&gt;
+&lt;p&gt;I wish you great, wherever you go.&lt;br&gt;Strengthen ur assets &amp;amp; set ur debentures low.&lt;br&gt;Differentiate the hurdles that come your way&lt;br&gt;&amp;amp; remember, client becomes a server someday  &lt;/p&gt;
+&lt;p&gt;Soon we’ll diverge, in the world, we’ll diffuse&lt;br&gt;so lets empty our &lt;code&gt;stacks&lt;/code&gt;, n clear our &lt;code&gt;queues&lt;/code&gt;&lt;br&gt;if at all we collide in future near or far&lt;br&gt;it’ll b purely coz of our implicit &lt;code&gt;reference power&lt;/code&gt;…  &lt;/p&gt;
+&lt;p&gt;Let’s share the last chilly aloo n andar wali chai
+Sort the indifferences, smile and say good-bye&lt;br&gt;Not just a degree, but lot of memories I shall take&lt;br&gt;I’l now terminate bugging u guys.. &lt;code&gt;Control + Pause Break&lt;/code&gt;  &lt;/p&gt;
+</description></item></channel></rss>
